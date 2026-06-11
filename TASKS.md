@@ -13,13 +13,16 @@
 
 ### TODO
 
-- [ ] Neon DB 계정 생성 및 프로젝트 생성
-- [ ] Vercel 프로젝트 생성 + GitHub 연결
-- [ ] Vercel ↔ Neon 통합 연결 (환경변수 자동 주입 확인)
-- [ ] 빈 프로젝트 Vercel 배포 확인
-- [ ] 공공 유기동물 API 키 신청 (농림축산검역본부, 승인 1~2일 소요 — 오늘 반드시)
-- [ ] `prisma/schema.prisma` 초안 작성
-- [ ] `prisma db push`로 Neon DB에 스키마 반영
+
+### DONE
+
+- [x] Neon DB 계정 생성 및 프로젝트 생성
+- [x] `prisma/schema.prisma` 초안 작성
+- [x] `prisma db push`로 Neon DB에 스키마 반영
+- [x] Vercel 프로젝트 생성 + GitHub 연결
+- [x] Vercel ↔ Neon 통합 연결 (환경변수 자동 주입 확인)
+- [x] 빈 프로젝트 Vercel 배포 확인
+- [x] 공공 유기동물 API 키 신청
 
 ### DONE
 
