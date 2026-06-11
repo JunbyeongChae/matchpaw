@@ -13,18 +13,19 @@
 
 ### TODO
 
-- [~] Next.js 프로젝트 생성 (`npx create-next-app@latest`)
-- [~] TypeScript + Tailwind CSS + App Router 설정 확인
 - [ ] Neon DB 계정 생성 및 프로젝트 생성
 - [ ] Vercel 프로젝트 생성 + GitHub 연결
 - [ ] Vercel ↔ Neon 통합 연결 (환경변수 자동 주입 확인)
 - [ ] 빈 프로젝트 Vercel 배포 확인
-- [ ] `.env.example` 작성
 - [ ] 공공 유기동물 API 키 신청 (농림축산검역본부, 승인 1~2일 소요 — 오늘 반드시)
 - [ ] `prisma/schema.prisma` 초안 작성
 - [ ] `prisma db push`로 Neon DB에 스키마 반영
 
 ### DONE
+
+- [x] Next.js 프로젝트 생성 (`npx create-next-app@latest`)
+- [x] TypeScript + Tailwind CSS + App Router 설정 확인
+- [x] `.env.example` 작성
 
 ---
 
