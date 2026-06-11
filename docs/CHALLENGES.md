@@ -28,3 +28,29 @@
 이 경험에서 얻은 인사이트. 포트폴리오에서 강조할 포인트.
 -->
 
+## CH-01. Prisma 7 Breaking Change — datasource url 제거
+
+**날짜**: 2026-06-12
+**Phase**: Phase 0
+**난이도**: 중
+
+### Problem
+`npm install prisma`로 최신 버전(7.8.0)이 설치됐고, `schema.prisma`에 `url = env("DATABASE_URL")`을 작성했더니 `prisma db push` 실행 시 에러 발생.
+
+```
+Error: The datasource property `url` is no longer supported in schema files.
+Move connection URLs for Migrate to `prisma.config.ts`
+```
+
+Prisma 7에서 `schema.prisma`의 `datasource.url`이 완전히 제거된 breaking change였다.
+
+### Tried
+- `prisma.config.ts` 생성 + `defineConfig`의 `migrate.adapter`에 `@prisma/adapter-neon`, `@neondatabase/serverless` 연결
+- `schema.prisma`에서 `url` 제거 후 재시도 → `"datasource.url property is required in your Prisma config file when using prisma db push"` 에러 지속
+- Prisma 7의 `defineConfig` 타입이 요구하는 정확한 URL 설정 방식이 문서화가 부족하여 해결 불가
+
+### Solution
+Prisma 5.22.0으로 다운그레이드. `schema.prisma`에 `url = env("DATABASE_URL")` 복원, `lib/prisma.ts`도 기본 `PrismaClient()` 패턴으로 단순화.
+
+### Lesson
+포트폴리오처럼 일정이 촉박한 프로젝트에서는 "최신 버전 = 좋음"이 아니다. Major 버전 업그레이드는 breaking change 위험이 크고, 레퍼런스와 Stack Overflow 답변도 부족하다. 사용 전 릴리즈 노트의 breaking changes 항목을 먼저 확인하는 습관이 필요하다.

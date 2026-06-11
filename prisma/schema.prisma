@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  passwordHash String
+  nickname     String
+  createdAt    DateTime      @default(now())
+  favorites    Favorite[]
+  checklists   Checklist[]
+}
+
+model Favorite {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  animalId    String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, animalId])
+}
+
+model Checklist {
+  id        Int             @id @default(autoincrement())
+  userId    Int?
+  animalId  String
+  title     String
+  createdAt DateTime        @default(now())
+  user      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items     ChecklistItem[]
+}
+
+model ChecklistItem {
+  id          Int       @id @default(autoincrement())
+  checklistId Int
+  content     String
+  isChecked   Boolean   @default(false)
+  order       Int
+  checklist   Checklist @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+}
+
+model MatchLog {
+  id          Int      @id @default(autoincrement())
+  ipAddress   String
+  surveyData  Json
+  resultData  Json
+  createdAt   DateTime @default(now())
+}
+
+model DailyMatchCount {
+  id        Int      @id @default(autoincrement())
+  ipAddress String
+  date      String
+  count     Int      @default(0)
+
+  @@unique([ipAddress, date])
+}
