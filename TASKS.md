@@ -13,8 +13,6 @@
 
 ### TODO
 
-- [ ] 공공 유기동물 API 응답 실제 호출 후 타입 검증
-- [ ] `prisma/schema.prisma` 확정 (타입 정의 후 필요 시 수정 + `prisma db push`)
 
 ### DONE
 
@@ -24,6 +22,8 @@
 - [x] `types/checklist.ts` — 체크리스트 타입 정의
 - [x] `types/auth.ts` — 인증 관련 타입 정의
 - [x] `types/api.ts` — 공통 API 응답 래퍼 타입 정의
+- [x] 공공 유기동물 API 응답 실제 호출 후 타입 검증 (v2 엔드포인트 필드 기준으로 수정)
+- [x] `prisma/schema.prisma` 확정 — Favorite·Checklist userId 인덱스 추가 + `prisma db push` 완료
 
 ---
 
