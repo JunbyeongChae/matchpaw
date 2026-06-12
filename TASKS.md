@@ -9,13 +9,32 @@
 
 ---
 
-## 현재 단계: Phase 0 — 프로젝트 초기 세팅 (6/11)
+## 현재 단계: Phase 1 — 타입 정의 및 외부 API 검증 (6/12~13)
 
 ### TODO
 
+- [ ] 공공 유기동물 API 응답 실제 호출 후 타입 검증
+- [ ] `prisma/schema.prisma` 확정 (타입 정의 후 필요 시 수정 + `prisma db push`)
 
 ### DONE
 
+- [x] `types/animal.ts` — 공공 유기동물 API 응답 타입 정의
+- [x] `types/survey.ts` — 설문 항목 타입 정의
+- [x] `types/match.ts` — Claude API 매칭 결과 타입 정의
+- [x] `types/checklist.ts` — 체크리스트 타입 정의
+- [x] `types/auth.ts` — 인증 관련 타입 정의
+- [x] `types/api.ts` — 공통 API 응답 래퍼 타입 정의
+
+---
+
+## Phase 0 — 프로젝트 초기 세팅 (6/11)
+
+### DONE
+
+- [x] Next.js 프로젝트 생성 (`npx create-next-app@latest`)
+- [x] TypeScript + Tailwind CSS + App Router 설정 확인
+- [x] `.env.example` 작성
+- [x] GitHub 저장소 생성 + push
 - [x] Neon DB 계정 생성 및 프로젝트 생성
 - [x] `prisma/schema.prisma` 초안 작성
 - [x] `prisma db push`로 Neon DB에 스키마 반영
@@ -23,12 +42,6 @@
 - [x] Vercel ↔ Neon 통합 연결 (환경변수 자동 주입 확인)
 - [x] 빈 프로젝트 Vercel 배포 확인
 - [x] 공공 유기동물 API 키 신청
-
-### DONE
-
-- [x] Next.js 프로젝트 생성 (`npx create-next-app@latest`)
-- [x] TypeScript + Tailwind CSS + App Router 설정 확인
-- [x] `.env.example` 작성
 
 ---
 
