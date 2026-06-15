@@ -9,32 +9,45 @@
 
 ---
 
-## 현재 단계: Phase 4 — UI 전체 구현 (6/18~23)
+## 현재 단계: Phase 5 — 통합 테스트 및 최종 배포 (6/23~25)
 
 ### TODO
+
+- [ ] Vercel 환경변수 설정 (`GEMINI_API_KEY`, `ANIMAL_API_KEY`, `JWT_SECRET`)
+- [ ] Vercel 배포 후 전체 기능 통합 테스트
+- [ ] 반응형 (375px~1440px) 전 구간 확인
+- [ ] 보안 체크리스트 통과 (API 키 노출 없음, console.log 제거 등)
+- [ ] README 작성
+
+---
+
+## Phase 4 — UI 전체 구현 (6/18~23)
+
+### DONE
 
 - [x] Figma 디자인 1회 읽기 → `docs/design-spec.md` 저장 + `globals.css` @theme 토큰 반영
 - [x] `app/layout.tsx` — 공통 레이아웃, TanStack Query Provider, 헤더/푸터
 - [x] `store/authStore.ts` — Zustand 인증 상태 (로그인 유저 전역 관리)
 - [x] `components/common/` — Button, Card, Modal, Skeleton 공통 컴포넌트
 - [x] `components/common/AuthModal.tsx` — 로그인/회원가입 모달 (헤더에서 열림)
-- [x] `app/(pages)/page.tsx` — 홈 (/) 서비스 소개, 설문 시작 CTA
+- [x] `app/(pages)/page.tsx` — 홈 (/) 서비스 소개, 설문 시작 CTA, 실제 동물 4마리 표시
 - [x] `store/surveyStore.ts` — Zustand 설문 답변 상태
 - [x] `components/features/survey/` — 설문 문항 컴포넌트, 진행 표시
 - [x] `app/(pages)/survey/page.tsx` — 라이프스타일 설문 (5문항)
 - [x] `hooks/useMatch.ts` — TanStack Query 매칭 mutation
 - [x] `store/matchStore.ts` — Zustand 매칭 결과 상태
-- [x] `components/features/result/` — 매칭 카드 (점수·코멘트·이유)
+- [x] `components/features/result/` — 매칭 카드 (사진·점수·코멘트·이유, 상위 5개)
 - [x] `app/(pages)/result/page.tsx` — AI 매칭 결과
-- [x] `hooks/useAnimals.ts` — TanStack Query 동물 목록/상세 훅
-- [x] `components/features/animals/` — 동물 카드 컴포넌트
+- [x] `hooks/useAnimals.ts` — TanStack Query 동물 목록/상세 훅 (캐시 기반 단건 조회)
+- [x] `components/features/animals/` — 동물 카드 컴포넌트 (kindNm 표시)
 - [x] `app/(pages)/animals/page.tsx` — 유기동물 목록 + 필터
 - [x] `app/(pages)/animals/[id]/page.tsx` — 유기동물 상세 + 체크리스트 생성 버튼
-- [x] `app/(pages)/checklist/page.tsx` — AI 입양 체크리스트 조회·토글
-- [x] `hooks/useFavorites.ts` — TanStack Query 찜 훅
-- [x] `components/features/favorites/` — 찜 카드 컴포넌트
+- [x] `app/(pages)/checklist/page.tsx` — AI 입양 체크리스트 조회·토글 (최근 1개)
+- [x] `hooks/useFavorites.ts` — TanStack Query 찜 훅 (imageUrl·kindNm 저장)
+- [x] `components/features/favorites/` — 찜 카드 (사진·품종명·날짜)
 - [x] `app/(pages)/favorites/page.tsx` — 찜 목록 (로그인 게이트)
-- [ ] 반응형 (375px~1440px) 전 구간 확인
+- [x] Claude API → Gemini API 전환 (`gemini-2.5-flash-lite`)
+- [x] `prisma/schema.prisma` — Favorite에 imageUrl·kindNm 필드 추가
 
 ---
 
