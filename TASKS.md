@@ -9,9 +9,28 @@
 
 ---
 
-## 현재 단계: Phase 2 — 외부 API 클라이언트 구현 (6/13~14)
+## 현재 단계: Phase 3 — Route Handler 전체 구현 (6/14~20)
 
 ### TODO
+
+- [x] `app/api/auth/register/route.ts` — POST: 회원가입
+- [x] `app/api/auth/login/route.ts` — POST: 로그인, JWT 발급, httpOnly 쿠키
+- [x] `app/api/auth/logout/route.ts` — POST: 쿠키 삭제
+- [x] `app/api/auth/me/route.ts` — GET: 내 정보 조회
+- [x] `app/api/animals/route.ts` — GET: 유기동물 목록
+- [x] `app/api/animals/[id]/route.ts` — GET: 유기동물 단건
+- [x] `app/api/match/route.ts` — POST: Claude 매칭 분석, 비회원 일 2회 제한
+- [x] `app/api/checklist/route.ts` — POST: Claude 체크리스트 생성
+- [x] `app/api/checklists/route.ts` — GET: 내 체크리스트 목록
+- [x] `app/api/checklists/[id]/items/[itemId]/route.ts` — PATCH: 체크 항목 토글
+- [x] `app/api/favorites/route.ts` — GET: 찜 목록, POST: 찜 추가
+- [x] `app/api/favorites/[id]/route.ts` — DELETE: 찜 삭제
+
+---
+
+## Phase 2 — 외부 API 클라이언트 구현 (6/13~14)
+
+### DONE
 
 - [x] `lib/auth.ts` — JWT 발급/검증, bcrypt 해싱 유틸
 - [x] `lib/animalApi.ts` — 공공 유기동물 API v2 클라이언트 (목록 조회, 단건 조회)
