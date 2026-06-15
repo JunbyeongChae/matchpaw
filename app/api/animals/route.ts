@@ -17,6 +17,13 @@ export async function GET(req: NextRequest) {
     endde: searchParams.get('endde') ?? undefined,
   };
 
-  const result = await fetchAnimalList(params);
-  return NextResponse.json({ success: true, data: result });
+  try {
+    const result = await fetchAnimalList(params);
+    return NextResponse.json({ success: true, data: result });
+  } catch {
+    return NextResponse.json(
+      { success: false, error: { code: 'ANIMAL_API_ERROR', message: '유기동물 데이터를 불러오지 못했습니다.' } },
+      { status: 502 }
+    );
+  }
 }

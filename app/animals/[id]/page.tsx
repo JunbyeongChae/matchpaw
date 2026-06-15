@@ -6,8 +6,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useAnimal } from '@/hooks/useAnimals';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useAuthStore } from '@/store/authStore';
 import { Skeleton } from '@/components/common/Skeleton';
 import Button from '@/components/common/Button';
+import AuthModal from '@/components/common/AuthModal';
 
 export default function AnimalDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -15,10 +17,16 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
   const queryClient = useQueryClient();
   const { data: animal, isLoading, isError } = useAnimal(id);
   const { favoriteIds, toggle } = useFavorites();
+  const user = useAuthStore((s) => s.user);
   const [checklistLoading, setChecklistLoading] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
 
   async function handleCreateChecklist() {
     if (!animal) return;
+    if (!user) {
+      setAuthOpen(true);
+      return;
+    }
     setChecklistLoading(true);
     try {
       const res = await fetch('/api/checklist', {
@@ -140,6 +148,8 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
           입양 체크리스트 만들기
         </Button>
       </div>
+
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
     </div>
   );
 }

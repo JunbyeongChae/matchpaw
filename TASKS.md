@@ -9,15 +9,30 @@
 
 ---
 
-## 현재 단계: Phase 5 — 통합 테스트 및 최종 배포 (6/23~25)
+## 현재 단계: 버그픽스 & 개선
+
+## 버그픽스 & 개선
+
+### TODO
+
+- [x] #01 `/api/match` — AI 분석 실패 시 에러 처리 및 클라이언트 피드백
+- [x] #02 `/api/animals` — 공공 API 실패 시 에러 처리
+- [x] #03 비로그인 체크리스트 생성 — 비회원 체크리스트 흐름 정의 및 처리
+- [ ] #04 회원가입 유효성 검사 — 이메일 형식, 비밀번호 8자 이상 클라이언트 검증
+- [ ] #05 로그아웃 안전성 — 로그아웃 후 캐시 초기화 및 리다이렉트 처리
+- [ ] #06 날짜 UTC 버그 — 찜 날짜 등 UTC→KST 변환 오류 수정
+- [ ] #07 이미지 도메인 — `next.config.ts`에 공공 API 이미지 도메인 https 허용 추가
+
+### 선택적 (Optional)
+
+- [ ] #08 dead code 제거 — 미사용 변수·컴포넌트·import 정리
+- [ ] #09 `fetchAnimalById` 개선 — 목록 100개 fetch 방식 최적화
+- [ ] #10 파일명 변경 — 컨벤션 불일치 파일명 정리
+- [ ] #11–12 찜/체크리스트 토글 UX 개선
 
 ### DONE
 
-- [x] Vercel 환경변수 설정 (`GEMINI_API_KEY`, `ANIMAL_API_KEY`, `JWT_SECRET`)
-- [x] Vercel 배포 후 전체 기능 통합 테스트
-- [x] 반응형 (375px~1440px) 전 구간 확인
-- [x] 보안 체크리스트 통과 (API 키 노출 없음, console.log 제거, 비회원 제한 검증)
-- [x] README 작성
+- [x] 모바일 로그아웃 버튼 BottomNav에 가려지는 버그 (`Header` 스태킹 컨텍스트)
 
 ---
 
@@ -48,6 +63,18 @@
 - [x] `app/(pages)/favorites/page.tsx` — 찜 목록 (로그인 게이트)
 - [x] Claude API → Gemini API 전환 (`gemini-2.5-flash-lite`)
 - [x] `prisma/schema.prisma` — Favorite에 imageUrl·kindNm 필드 추가
+
+---
+
+## Phase 5 — 통합 테스트 및 최종 배포 (6/23~25)
+
+### DONE
+
+- [x] Vercel 환경변수 설정 (`GEMINI_API_KEY`, `ANIMAL_API_KEY`, `JWT_SECRET`)
+- [x] Vercel 배포 후 전체 기능 통합 테스트
+- [x] 반응형 (375px~1440px) 전 구간 확인
+- [x] 보안 체크리스트 통과 (API 키 노출 없음, console.log 제거, 비회원 제한 검증)
+- [x] README 작성
 
 ---
 

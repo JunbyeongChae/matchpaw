@@ -54,7 +54,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { items: animals } = await fetchAnimalList({ numOfRows, state: 'notice' });
+  let animals: Awaited<ReturnType<typeof fetchAnimalList>>['items'];
+  try {
+    const { items } = await fetchAnimalList({ numOfRows, state: 'notice' });
+    animals = items;
+  } catch {
+    return NextResponse.json(
+      { success: false, error: { code: 'ANIMAL_API_ERROR', message: '유기동물 데이터를 불러오지 못했습니다.' } },
+      { status: 502 }
+    );
+  }
 
   if (animals.length === 0) {
     return NextResponse.json(
@@ -63,7 +72,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const claudeResponse = await analyzeMatch({ surveyAnswers, animals });
+  let claudeResponse: Awaited<ReturnType<typeof analyzeMatch>>;
+  try {
+    claudeResponse = await analyzeMatch({ surveyAnswers, animals });
+  } catch {
+    return NextResponse.json(
+      { success: false, error: { code: 'AI_ERROR', message: 'AI 매칭 분석에 실패했습니다. 잠시 후 다시 시도해주세요.' } },
+      { status: 502 }
+    );
+  }
 
   const matchedAnimals = claudeResponse.matches
     .map((m) => {
@@ -80,13 +97,17 @@ export async function POST(req: NextRequest) {
   };
 
   const ip = getIp(req);
-  await prisma.matchLog.create({
-    data: {
-      ipAddress: ip,
-      surveyData: surveyAnswers as object,
-      resultData: result as object,
-    },
-  });
+  try {
+    await prisma.matchLog.create({
+      data: {
+        ipAddress: ip,
+        surveyData: surveyAnswers as object,
+        resultData: result as object,
+      },
+    });
+  } catch {
+    // matchLog 실패는 결과 반환에 영향 없음
+  }
 
   return NextResponse.json({ success: true, data: result });
 }
