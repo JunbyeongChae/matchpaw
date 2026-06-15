@@ -9,13 +9,40 @@
 
 ---
 
-## 현재 단계: Phase 0 — 프로젝트 초기 세팅 (6/11)
+## 현재 단계: Phase 2 — 외부 API 클라이언트 구현 (6/13~14)
 
 ### TODO
 
+- [x] `lib/auth.ts` — JWT 발급/검증, bcrypt 해싱 유틸
+- [x] `lib/animalApi.ts` — 공공 유기동물 API v2 클라이언트 (목록 조회, 단건 조회)
+- [x] `lib/claudeApi.ts` — Claude API 클라이언트 (매칭 분석, 체크리스트 생성)
+- [x] Claude 배치 JSON 파싱 성공 확인 ← **임계 조건**
+
+---
+
+## Phase 1 — 타입 정의 및 외부 API 검증 (6/12~13)
 
 ### DONE
 
+- [x] `types/animal.ts` — 공공 유기동물 API 응답 타입 정의
+- [x] `types/survey.ts` — 설문 항목 타입 정의
+- [x] `types/match.ts` — Claude API 매칭 결과 타입 정의
+- [x] `types/checklist.ts` — 체크리스트 타입 정의
+- [x] `types/auth.ts` — 인증 관련 타입 정의
+- [x] `types/api.ts` — 공통 API 응답 래퍼 타입 정의
+- [x] 공공 유기동물 API 응답 실제 호출 후 타입 검증 (v2 엔드포인트 필드 기준으로 수정)
+- [x] `prisma/schema.prisma` 확정 — Favorite·Checklist userId 인덱스 추가 + `prisma db push` 완료
+
+---
+
+## Phase 0 — 프로젝트 초기 세팅 (6/11)
+
+### DONE
+
+- [x] Next.js 프로젝트 생성 (`npx create-next-app@latest`)
+- [x] TypeScript + Tailwind CSS + App Router 설정 확인
+- [x] `.env.example` 작성
+- [x] GitHub 저장소 생성 + push
 - [x] Neon DB 계정 생성 및 프로젝트 생성
 - [x] `prisma/schema.prisma` 초안 작성
 - [x] `prisma db push`로 Neon DB에 스키마 반영
@@ -23,12 +50,6 @@
 - [x] Vercel ↔ Neon 통합 연결 (환경변수 자동 주입 확인)
 - [x] 빈 프로젝트 Vercel 배포 확인
 - [x] 공공 유기동물 API 키 신청
-
-### DONE
-
-- [x] Next.js 프로젝트 생성 (`npx create-next-app@latest`)
-- [x] TypeScript + Tailwind CSS + App Router 설정 확인
-- [x] `.env.example` 작성
 
 ---
 

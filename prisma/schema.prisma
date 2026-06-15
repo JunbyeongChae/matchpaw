@@ -25,6 +25,7 @@ model Favorite {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, animalId])
+  @@index([userId])
 }
 
 model Checklist {
@@ -35,6 +36,8 @@ model Checklist {
   createdAt DateTime        @default(now())
   user      User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
   items     ChecklistItem[]
+
+  @@index([userId])
 }
 
 model ChecklistItem {
