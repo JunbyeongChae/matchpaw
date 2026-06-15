@@ -9,10 +9,18 @@
 
 ---
 
-## 현재 단계: Phase 1 — 타입 정의 및 외부 API 검증 (6/12~13)
+## 현재 단계: Phase 2 — 외부 API 클라이언트 구현 (6/13~14)
 
 ### TODO
 
+- [x] `lib/auth.ts` — JWT 발급/검증, bcrypt 해싱 유틸
+- [x] `lib/animalApi.ts` — 공공 유기동물 API v2 클라이언트 (목록 조회, 단건 조회)
+- [x] `lib/claudeApi.ts` — Claude API 클라이언트 (매칭 분석, 체크리스트 생성)
+- [x] Claude 배치 JSON 파싱 성공 확인 ← **임계 조건**
+
+---
+
+## Phase 1 — 타입 정의 및 외부 API 검증 (6/12~13)
 
 ### DONE
 
