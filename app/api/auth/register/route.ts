@@ -12,6 +12,27 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json(
+      { success: false, error: { code: 'INVALID_EMAIL', message: '올바른 이메일 형식이 아닙니다.' } },
+      { status: 400 }
+    );
+  }
+
+  if (password.length < 8) {
+    return NextResponse.json(
+      { success: false, error: { code: 'INVALID_PASSWORD', message: '비밀번호는 8자 이상이어야 합니다.' } },
+      { status: 400 }
+    );
+  }
+
+  if (nickname.length < 2 || nickname.length > 20) {
+    return NextResponse.json(
+      { success: false, error: { code: 'INVALID_NICKNAME', message: '닉네임은 2자 이상 20자 이하여야 합니다.' } },
+      { status: 400 }
+    );
+  }
+
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     return NextResponse.json(

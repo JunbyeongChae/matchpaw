@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'openapi.animal.go.kr',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'openapi.animal.go.kr',
+        pathname: '/**',
+      },
     ],
   },
 };

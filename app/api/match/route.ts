@@ -8,7 +8,7 @@ import type { SurveyAnswers } from '@/types/survey';
 const DAILY_LIMIT = 2;
 
 function getToday(): string {
-  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
 }
 
 function getIp(req: NextRequest): string {

@@ -28,6 +28,31 @@
 이 경험에서 얻은 인사이트. 포트폴리오에서 강조할 포인트.
 -->
 
+## CH-04. Rate Limit 날짜 — UTC 기준으로 한국 시간과 최대 9시간 차이
+
+**날짜**: 2026-06-15
+**Phase**: 버그픽스
+**난이도**: 하
+
+### Problem
+비회원 매칭 횟수를 날짜별로 제한할 때 `new Date().toISOString().slice(0, 10)`으로 날짜 키를 생성했다. `toISOString()`은 UTC 기준이므로 한국 시각 오전 9시 이전(UTC 전날)에는 날짜 키가 전날로 계산된다. 예: 한국 시각 2026-06-15 오전 8:59 → UTC 2026-06-14로 저장. 전날 2회를 이미 사용한 사용자가 당일 오전 9시 이전에 다시 2회를 사용할 수 있는 버그.
+
+### Solution
+`Intl.DateTimeFormat`에 `timeZone: 'Asia/Seoul'`을 지정하고 `en-CA` 로케일로 `YYYY-MM-DD` 형식을 직접 반환.
+
+```typescript
+function getToday(): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+}
+```
+
+`en-CA`는 ISO 8601 형식(`YYYY-MM-DD`)을 반환하므로 별도 파싱 없이 DB 키로 바로 사용 가능.
+
+### Lesson
+서버가 UTC 환경(Vercel)이어도 서비스 기준 시간대를 명시해야 한다. `toISOString()`은 항상 UTC이므로 특정 시간대의 "오늘"을 구할 때는 `Intl.DateTimeFormat`이나 UTC 오프셋 계산이 필요하다. 날짜 기반 비즈니스 로직은 항상 시간대를 명시하는 습관을 들여야 한다.
+
+---
+
 ## CH-03. 비회원 매칭 횟수 제한 — IP 기반 구현과 우회 가능성 분석
 
 **날짜**: 2026-06-15

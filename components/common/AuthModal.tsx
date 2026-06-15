@@ -41,6 +41,19 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 
     try {
       if (mode === 'register') {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setError('올바른 이메일 형식이 아닙니다.');
+          return;
+        }
+        if (password.length < 8) {
+          setError('비밀번호는 8자 이상이어야 합니다.');
+          return;
+        }
+        if (nickname.length < 2 || nickname.length > 20) {
+          setError('닉네임은 2자 이상 20자 이하여야 합니다.');
+          return;
+        }
+
         const res = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -72,7 +85,11 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
   }
 
   async function handleLogout() {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    const res = await fetch('/api/auth/logout', { method: 'POST' });
+    if (!res.ok) {
+      alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
     setUser(null);
     onClose();
   }
