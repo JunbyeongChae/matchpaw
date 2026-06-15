@@ -49,12 +49,13 @@ export default function AnimalsPage() {
       <div className="grid grid-cols-2 gap-3">
         {isLoading
           ? Array.from({ length: 6 }).map((_, i) => <AnimalCardSkeleton key={i} />)
-          : data?.items.map((animal) => (
+          : data?.items.map((animal, i) => (
               <AnimalCard
                 key={animal.desertionNo}
                 animal={animal}
                 isFavorited={favoriteIds.has(animal.desertionNo)}
                 onFavorite={toggle}
+                priority={i === 0}
               />
             ))}
       </div>

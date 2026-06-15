@@ -6,11 +6,12 @@ import type { AbandonedAnimalItem } from '@/types/animal';
 
 interface AnimalCardProps {
   animal: AbandonedAnimalItem;
-  onFavorite?: (desertionNo: string) => void;
+  onFavorite?: (desertionNo: string, imageUrl?: string, kindNm?: string) => void;
   isFavorited?: boolean;
+  priority?: boolean;
 }
 
-export default function AnimalCard({ animal, onFavorite, isFavorited }: AnimalCardProps) {
+export default function AnimalCard({ animal, onFavorite, isFavorited, priority = false }: AnimalCardProps) {
   const isDog = animal.upKindCd === '417000';
 
   return (
@@ -23,10 +24,12 @@ export default function AnimalCard({ animal, onFavorite, isFavorited }: AnimalCa
           {animal.popfile1 ? (
             <Image
               src={animal.popfile1}
-              alt={animal.kindCd}
+              alt={animal.kindNm}
               fill
               className="object-cover"
               sizes="(max-width: 390px) 50vw, 200px"
+              priority={priority}
+              loading={priority ? 'eager' : 'lazy'}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-4xl">
@@ -35,7 +38,7 @@ export default function AnimalCard({ animal, onFavorite, isFavorited }: AnimalCa
           )}
           {onFavorite && (
             <button
-              onClick={(e) => { e.preventDefault(); onFavorite(animal.desertionNo); }}
+              onClick={(e) => { e.preventDefault(); onFavorite(animal.desertionNo, animal.popfile1, animal.kindNm); }}
               className="absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center"
               style={{ backgroundColor: 'rgba(255,255,255,0.9)', boxShadow: '0px 1px 2px rgba(0,0,0,0.05)' }}
             >
@@ -50,7 +53,7 @@ export default function AnimalCard({ animal, onFavorite, isFavorited }: AnimalCa
       <div className="p-3 border-t border-border-subtle space-y-1">
         <div className="flex items-center justify-between">
           <h3 className="font-mono font-medium text-[15px] text-text-primary truncate">
-            {animal.kindCd}
+            {animal.kindNm}
           </h3>
           <span
             className="text-[10px] font-label font-bold px-2 py-0.5 rounded-pill uppercase tracking-wider shrink-0"

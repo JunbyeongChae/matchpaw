@@ -18,11 +18,11 @@ export function useFavorites() {
   const favoriteIds = new Set(favorites.map((f) => f.animalId));
 
   const addMutation = useMutation({
-    mutationFn: async (animalId: string) => {
+    mutationFn: async ({ animalId, imageUrl, kindNm }: { animalId: string; imageUrl?: string; kindNm?: string }) => {
       const res = await fetch('/api/favorites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ animalId }),
+        body: JSON.stringify({ animalId, imageUrl, kindNm }),
       });
       if (!res.ok) throw new Error('찜 추가 실패');
     },
@@ -36,10 +36,10 @@ export function useFavorites() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
   });
 
-  function toggle(animalId: string) {
+  function toggle(animalId: string, imageUrl?: string, kindNm?: string) {
     const existing = favorites.find((f) => f.animalId === animalId);
     if (existing) removeMutation.mutate(existing.id);
-    else addMutation.mutate(animalId);
+    else addMutation.mutate({ animalId, imageUrl, kindNm });
   }
 
   return { favorites, favoriteIds, toggle };

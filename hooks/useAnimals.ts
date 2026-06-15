@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AbandonedAnimalItem } from '@/types/animal';
 
 interface AnimalListResult {
@@ -34,6 +34,8 @@ export function useAnimals(params: AnimalListParams = {}) {
 }
 
 export function useAnimal(id: string) {
+  const queryClient = useQueryClient();
+
   return useQuery<AbandonedAnimalItem>({
     queryKey: ['animal', id],
     queryFn: async () => {
@@ -41,6 +43,13 @@ export function useAnimal(id: string) {
       const data = await res.json();
       if (!data.success) throw new Error(data.error.message);
       return data.data.animal;
+    },
+    initialData: () => {
+      const cached = queryClient.getQueriesData<AnimalListResult>({ queryKey: ['animals'] });
+      for (const [, result] of cached) {
+        const found = result?.items.find((a) => a.desertionNo === id);
+        if (found) return found;
+      }
     },
     enabled: !!id,
   });

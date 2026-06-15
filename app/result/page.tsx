@@ -17,7 +17,7 @@ export default function ResultPage() {
 
   if (!result) return null;
 
-  const sorted = [...result.matches].sort((a, b) => b.score - a.score);
+  const sorted = [...result.matches].sort((a, b) => b.score - a.score).slice(0, 5);
 
   return (
     <div className="max-w-[390px] mx-auto px-5 py-6 space-y-6">

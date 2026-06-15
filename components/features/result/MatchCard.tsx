@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import type { MatchedAnimal } from '@/types/match';
 
 interface MatchCardProps {
@@ -26,25 +27,40 @@ export default function MatchCard({ match, rank }: MatchCardProps) {
       )}
 
       <div className="p-4 space-y-4">
-        {/* 점수 + 이름 */}
-        <div className="flex items-start justify-between gap-3">
-          <div>
+        {/* 사진 + 점수 + 이름 */}
+        <div className="flex items-start gap-3">
+          <div className="w-16 h-16 rounded-card overflow-hidden bg-surface-muted shrink-0">
+            {animal.popfile1 ? (
+              <Image
+                src={animal.popfile1}
+                alt={animal.kindNm}
+                width={64}
+                height={64}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-2xl">
+                {animal.upKindCd === '417000' ? '🐶' : '🐱'}
+              </div>
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
             <p className="font-mono font-medium text-[11px] text-text-muted mb-0.5">
               #{rank} 매칭
             </p>
-            <h3 className="font-mono font-medium text-[20px] text-text-primary">
-              {animal.kindCd}
+            <h3 className="font-mono font-medium text-[18px] text-text-primary truncate">
+              {animal.kindNm}
             </h3>
-            <p className="font-mono text-[13px] text-text-muted mt-0.5">
+            <p className="font-mono text-[12px] text-text-muted mt-0.5">
               {animal.age} · {animal.sexCd === 'M' ? '수컷' : animal.sexCd === 'F' ? '암컷' : '미상'} · {animal.weight}
             </p>
           </div>
           <div className="shrink-0 text-center">
             <div
-              className="w-14 h-14 rounded-full flex items-center justify-center"
+              className="w-12 h-12 rounded-full flex items-center justify-center"
               style={{ backgroundColor: scoreColor(score) + '20' }}
             >
-              <span className="font-mono font-medium text-[18px]" style={{ color: scoreColor(score) }}>
+              <span className="font-mono font-medium text-[16px]" style={{ color: scoreColor(score) }}>
                 {score}
               </span>
             </div>

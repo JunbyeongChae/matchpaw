@@ -2,6 +2,7 @@
 
 import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useAnimal } from '@/hooks/useAnimals';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -11,6 +12,7 @@ import Button from '@/components/common/Button';
 export default function AnimalDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { data: animal, isLoading, isError } = useAnimal(id);
   const { favoriteIds, toggle } = useFavorites();
   const [checklistLoading, setChecklistLoading] = useState(false);
@@ -24,13 +26,14 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           animalId: animal.desertionNo,
-          animalKind: animal.kindCd,
+          animalKind: animal.kindNm,
           animalAge: animal.age,
           animalSpecialMark: animal.specialMark,
         }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error.message);
+      queryClient.invalidateQueries({ queryKey: ['checklists'] });
       router.push('/checklist');
     } catch {
       alert('체크리스트 생성에 실패했습니다.');
@@ -69,14 +72,14 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
       {/* 이미지 */}
       <div className="relative w-full aspect-[4/3] bg-surface-muted">
         {animal.popfile1 ? (
-          <Image src={animal.popfile1} alt={animal.kindCd} fill className="object-cover" sizes="390px" />
+          <Image src={animal.popfile1} alt={animal.kindNm} fill className="object-cover" sizes="390px" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-7xl">
             {isDog ? '🐶' : '🐱'}
           </div>
         )}
         <button
-          onClick={() => toggle(animal.desertionNo)}
+          onClick={() => toggle(animal.desertionNo, animal.popfile1, animal.kindNm)}
           className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-xl"
           style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}
         >
@@ -99,7 +102,7 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
                 {isDog ? 'DOG' : 'CAT'}
               </span>
             </div>
-            <h1 className="font-mono font-medium text-[24px] text-text-primary">{animal.kindCd}</h1>
+            <h1 className="font-mono font-medium text-[24px] text-text-primary">{animal.kindNm}</h1>
           </div>
         </div>
 

@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const body: CreateChecklistBody = await req.json();
   const { animalId, animalKind, animalAge, animalSpecialMark } = body;
 
-  if (!animalId || !animalKind || !animalAge || !animalSpecialMark) {
+  if (!animalId || !animalKind || !animalAge) {
     return NextResponse.json(
       { success: false, error: { code: 'MISSING_FIELDS', message: '동물 정보가 누락되었습니다.' } },
       { status: 400 }
@@ -19,7 +19,21 @@ export async function POST(req: NextRequest) {
   const payload = token ? verifyToken(token) : null;
   const userId = payload?.userId ?? null;
 
-  const claudeResponse = await generateChecklist({ animalId, animalKind, animalAge, animalSpecialMark });
+  let claudeResponse;
+  try {
+    claudeResponse = await generateChecklist({
+      animalId,
+      animalKind,
+      animalAge,
+      animalSpecialMark: animalSpecialMark || '특이사항 없음',
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'AI 오류';
+    return NextResponse.json(
+      { success: false, error: { code: 'AI_ERROR', message } },
+      { status: 502 }
+    );
+  }
 
   const checklist = await prisma.checklist.create({
     data: {

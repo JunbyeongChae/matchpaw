@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { animalId } = await req.json();
+  const { animalId, imageUrl, kindNm } = await req.json();
   if (!animalId) {
     return NextResponse.json(
       { success: false, error: { code: 'MISSING_FIELDS', message: 'animalId가 필요합니다.' } },
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
   }
 
   const favorite = await prisma.favorite.create({
-    data: { userId: payload.userId, animalId },
+    data: { userId: payload.userId, animalId, imageUrl: imageUrl ?? null, kindNm: kindNm ?? null },
   });
 
   return NextResponse.json({ success: true, data: { favorite } }, { status: 201 });

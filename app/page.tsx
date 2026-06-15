@@ -1,7 +1,15 @@
+'use client';
+
 import Link from 'next/link';
+import { useAnimals } from '@/hooks/useAnimals';
+import AnimalCard from '@/components/features/animals/AnimalCard';
 import { AnimalCardSkeleton } from '@/components/common/Skeleton';
+import { useFavorites } from '@/hooks/useFavorites';
 
 export default function HomePage() {
+  const { data, isLoading } = useAnimals({ numOfRows: 4, state: 'notice' });
+  const { favoriteIds, toggle } = useFavorites();
+
   return (
     <div className="max-w-[390px] mx-auto px-5 space-y-8 pb-8">
       {/* Hero */}
@@ -74,9 +82,17 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <AnimalCardSkeleton key={i} />
-          ))}
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => <AnimalCardSkeleton key={i} />)
+            : data?.items.map((animal, i) => (
+                <AnimalCard
+                  key={animal.desertionNo}
+                  animal={animal}
+                  isFavorited={favoriteIds.has(animal.desertionNo)}
+                  onFavorite={toggle}
+                  priority={i === 0}
+                />
+              ))}
         </div>
       </section>
 

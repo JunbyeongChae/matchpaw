@@ -20,6 +20,7 @@ export default function ChecklistPage() {
       return data.data.checklists;
     },
     enabled: !!user,
+    staleTime: 0,
   });
 
   const toggleMutation = useMutation({
@@ -72,7 +73,7 @@ export default function ChecklistPage() {
       )}
 
       <div className="space-y-6">
-        {checklists?.map((checklist) => {
+        {checklists?.slice(0, 1).map((checklist) => {
           const done = checklist.items.filter((i) => i.isChecked).length;
           const total = checklist.items.length;
           const pct = total > 0 ? Math.round((done / total) * 100) : 0;
