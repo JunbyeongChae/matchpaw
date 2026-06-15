@@ -98,7 +98,7 @@ export default function SurveyPage() {
   }
 
   return (
-    <div className="max-w-[390px] mx-auto px-5 py-6 space-y-8">
+    <div className="max-w-[600px] mx-auto px-5 py-6 space-y-8">
       <SurveyProgress current={currentStep} total={QUESTIONS.length} />
 
       <SurveyQuestion

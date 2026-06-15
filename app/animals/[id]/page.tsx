@@ -44,7 +44,7 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
 
   if (isLoading) {
     return (
-      <div className="max-w-[390px] mx-auto px-5 py-6 space-y-4">
+      <div className="max-w-[600px] mx-auto px-5 py-6 space-y-4">
         <Skeleton className="w-full h-64" />
         <Skeleton className="h-7 w-40" />
         <Skeleton className="h-4 w-56" />
@@ -55,7 +55,7 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
 
   if (isError || !animal) {
     return (
-      <div className="max-w-[390px] mx-auto px-5 py-12 text-center">
+      <div className="max-w-[600px] mx-auto px-5 py-12 text-center">
         <p className="font-mono text-text-muted">동물 정보를 찾을 수 없습니다.</p>
         <Button variant="secondary" size="md" className="mt-4" onClick={() => router.back()}>
           돌아가기
@@ -68,7 +68,7 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
   const isFavorited = favoriteIds.has(animal.desertionNo);
 
   return (
-    <div className="max-w-[390px] mx-auto space-y-0">
+    <div className="max-w-[600px] mx-auto space-y-0">
       {/* 이미지 */}
       <div className="relative w-full aspect-[4/3] bg-surface-muted">
         {animal.popfile1 ? (

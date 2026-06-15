@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface-page h-16 flex items-center px-5">
-      <div className="w-full max-w-[390px] mx-auto flex items-center justify-between">
+      <div className="w-full max-w-[600px] mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl font-sans font-semibold text-text-brand tracking-tight">
             matchpaw

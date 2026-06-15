@@ -21,7 +21,7 @@ export default function BottomNav() {
         boxShadow: '0px -4px 20px 0px rgba(74, 63, 53, 0.06)',
       }}
     >
-      <div className="max-w-[390px] mx-auto flex items-center justify-around px-2 py-2">
+      <div className="max-w-[600px] mx-auto flex items-center justify-around px-2 py-2">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
           return (

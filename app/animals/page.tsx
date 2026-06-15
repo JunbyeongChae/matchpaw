@@ -16,11 +16,11 @@ export default function AnimalsPage() {
   const [upkind, setUpkind] = useState('');
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError } = useAnimals({ upkind, pageNo: page, numOfRows: 20, state: 'notice' });
+  const { data, isLoading, isError } = useAnimals({ upkind, pageNo: page, numOfRows: 18, state: 'notice' });
   const { favoriteIds, toggle } = useFavorites();
 
   return (
-    <div className="max-w-[390px] mx-auto px-5 py-6 space-y-5">
+    <div className="max-w-[600px] mx-auto px-5 py-6 space-y-5">
       <h1 className="font-mono font-medium text-[22px] text-text-primary">유기동물</h1>
 
       {/* 필터 */}
@@ -46,7 +46,7 @@ export default function AnimalsPage() {
         </p>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {isLoading
           ? Array.from({ length: 6 }).map((_, i) => <AnimalCardSkeleton key={i} />)
           : data?.items.map((animal, i) => (

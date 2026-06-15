@@ -7,18 +7,18 @@ import { AnimalCardSkeleton } from '@/components/common/Skeleton';
 import { useFavorites } from '@/hooks/useFavorites';
 
 export default function HomePage() {
-  const { data, isLoading } = useAnimals({ numOfRows: 4, state: 'notice' });
+  const { data, isLoading } = useAnimals({ numOfRows: 6, state: 'notice' });
   const { favoriteIds, toggle } = useFavorites();
 
   return (
-    <div className="max-w-[390px] mx-auto px-5 space-y-8 pb-8">
+    <div className="max-w-[600px] mx-auto px-5 space-y-8 pb-8">
       {/* Hero */}
       <section
         className="rounded-card px-6 py-10 mt-4 relative overflow-hidden"
         style={{ backgroundColor: 'var(--color-surface-hero)' }}
       >
         <h1
-          className="font-mono font-medium text-[40px] leading-[52px] text-text-primary mb-4"
+          className="font-mono font-medium text-[32px] leading-[44px] text-text-primary mb-4"
           style={{ letterSpacing: '-0.02em' }}
         >
           나에게 꼭 맞는<br />단짝,<br />AI가 찾아줄게요
@@ -28,7 +28,7 @@ export default function HomePage() {
         </p>
         <Link
           href="/survey"
-          className="inline-flex items-center justify-center px-8 py-3.5 rounded-pill bg-brand-primary text-brand-deep font-mono font-medium text-[14px]"
+          className="inline-flex items-center justify-center px-8 py-3.5 rounded-pill bg-brand-primary text-brand-deep font-mono font-medium text-[14px] whitespace-nowrap"
           style={{ boxShadow: '0px 4px 20px 0px rgba(255, 140, 66, 0.2)' }}
         >
           매칭 시작하기
@@ -81,7 +81,7 @@ export default function HomePage() {
             전체 보기
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {isLoading
             ? Array.from({ length: 4 }).map((_, i) => <AnimalCardSkeleton key={i} />)
             : data?.items.map((animal, i) => (

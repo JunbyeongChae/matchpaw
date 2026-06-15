@@ -20,7 +20,7 @@ export default function ResultPage() {
   const sorted = [...result.matches].sort((a, b) => b.score - a.score).slice(0, 5);
 
   return (
-    <div className="max-w-[390px] mx-auto px-5 py-6 space-y-6">
+    <div className="max-w-[600px] mx-auto px-5 py-6 space-y-6">
       <div>
         <h1 className="font-mono font-medium text-[24px] text-text-primary">AI 매칭 결과</h1>
         <p className="font-mono text-[13px] text-text-muted mt-1">
@@ -34,15 +34,15 @@ export default function ResultPage() {
         ))}
       </div>
 
-      <div className="flex gap-3 pt-2">
-        <Link href="/survey" className="flex-1">
-          <Button variant="secondary" size="lg" className="w-full">
+      <div className="flex flex-col gap-3 pt-2">
+        <Link href="/survey">
+          <Button variant="primary" size="lg" className="w-full">
             다시 매칭하기
           </Button>
         </Link>
-        <Link href="/animals" className="flex-1">
-          <Button variant="primary" size="lg" className="w-full">
-            전체 보기
+        <Link href="/animals">
+          <Button variant="secondary" size="lg" className="w-full">
+            전체 동물 보기
           </Button>
         </Link>
       </div>

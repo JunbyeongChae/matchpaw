@@ -28,6 +28,45 @@
 이 경험에서 얻은 인사이트. 포트폴리오에서 강조할 포인트.
 -->
 
+## CH-03. 비회원 매칭 횟수 제한 — IP 기반 구현과 우회 가능성 분석
+
+**날짜**: 2026-06-15
+**Phase**: Phase 5
+**난이도**: 중
+
+### Problem
+비회원도 AI 매칭을 체험할 수 있되, 무제한 사용을 방지해야 했다. 로그인 없이 사용자를 식별하고 하루 사용 횟수를 제한하는 방법이 필요했다.
+
+### Solution
+**IP 주소 + 날짜 복합키** 기반으로 DB에 카운트를 저장하는 방식을 선택했다.
+
+```typescript
+// DailyMatchCount 모델: ipAddress + date 복합 유니크 키
+const record = await prisma.dailyMatchCount.upsert({
+  where: { ipAddress_date: { ipAddress: ip, date: today } },
+  update: { count: { increment: 1 } },
+  create: { ipAddress: ip, date: today, count: 1 },
+});
+if (record.count > DAILY_LIMIT) return 429;
+```
+
+IP는 `X-Forwarded-For` → `X-Real-IP` → `0.0.0.0` 순으로 추출한다.
+
+**막을 수 있는 우회:**
+- 시크릿/인코그니토 모드 → 같은 IP이므로 제한 적용
+- 브라우저 캐시·쿠키 삭제 → 서버 DB 기반이므로 우회 불가
+- `X-Forwarded-For` 헤더 스푸핑 → Vercel이 실제 클라이언트 IP를 강제 주입하고 사용자 제공 헤더를 무시하므로 우회 불가
+
+**남은 우회 방법 (현실적으로 막기 불가능):**
+- VPN / 프록시 서버로 IP 변경
+- 모바일 데이터 ↔ WiFi 전환 (IP 변경)
+- 다른 네트워크 환경으로 이동
+
+### Lesson
+IP 기반 제한은 "선의의 사용자"에 대한 가이드라인 수준이며, 악의적인 우회는 막기 어렵다. 완전한 제한은 계정 기반(로그인 필수)으로만 가능하다. 그러나 포트폴리오 프로젝트처럼 체험 목적의 비회원 기능에서는 IP 제한만으로 충분하고, 이 한계를 인지하고 설계했다는 점을 면접에서 어필할 수 있는 포인트다.
+
+---
+
 ## CH-02. 체크리스트 중복 표시 — 정적→AI 전환 중 DB 잔존 데이터
 
 **날짜**: 2026-06-15

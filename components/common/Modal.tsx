@@ -34,7 +34,7 @@ export default function Modal({ open, onClose, title, children }: ModalProps) {
     >
       <div className="absolute inset-0 bg-text-deep-brown/60 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-[390px] bg-surface-card rounded-t-[24px] sm:rounded-card p-6"
+        className="relative w-full max-w-[600px] bg-surface-card rounded-t-[24px] sm:rounded-card p-6"
         style={{ boxShadow: '0px 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
       >
         <div className="flex items-center justify-between mb-6">
