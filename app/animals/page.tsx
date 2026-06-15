@@ -1,0 +1,85 @@
+'use client';
+
+import { useState } from 'react';
+import { useAnimals } from '@/hooks/useAnimals';
+import AnimalCard from '@/components/features/animals/AnimalCard';
+import { AnimalCardSkeleton } from '@/components/common/Skeleton';
+import { useFavorites } from '@/hooks/useFavorites';
+
+const FILTERS = [
+  { label: '전체', value: '' },
+  { label: '강아지', value: '417000' },
+  { label: '고양이', value: '422400' },
+];
+
+export default function AnimalsPage() {
+  const [upkind, setUpkind] = useState('');
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading, isError } = useAnimals({ upkind, pageNo: page, numOfRows: 20, state: 'notice' });
+  const { favoriteIds, toggle } = useFavorites();
+
+  return (
+    <div className="max-w-[390px] mx-auto px-5 py-6 space-y-5">
+      <h1 className="font-mono font-medium text-[22px] text-text-primary">유기동물</h1>
+
+      {/* 필터 */}
+      <div className="flex gap-2">
+        {FILTERS.map((f) => (
+          <button
+            key={f.value}
+            onClick={() => { setUpkind(f.value); setPage(1); }}
+            className={`px-4 py-1.5 rounded-pill font-mono text-[13px] font-medium border transition-colors ${
+              upkind === f.value
+                ? 'bg-brand-primary text-brand-deep border-brand-primary'
+                : 'bg-surface-card text-text-muted border-border-default hover:border-brand-secondary'
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {isError && (
+        <p className="font-mono text-[13px] text-error text-center py-8">
+          데이터를 불러오지 못했습니다.
+        </p>
+      )}
+
+      <div className="grid grid-cols-2 gap-3">
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, i) => <AnimalCardSkeleton key={i} />)
+          : data?.items.map((animal) => (
+              <AnimalCard
+                key={animal.desertionNo}
+                animal={animal}
+                isFavorited={favoriteIds.has(animal.desertionNo)}
+                onFavorite={toggle}
+              />
+            ))}
+      </div>
+
+      {data && data.totalCount > data.numOfRows && (
+        <div className="flex justify-center gap-2 pt-2">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-4 py-2 rounded-pill font-mono text-[13px] border border-border-default disabled:opacity-40"
+          >
+            이전
+          </button>
+          <span className="flex items-center font-mono text-[13px] text-text-muted px-2">
+            {page} / {Math.ceil(data.totalCount / data.numOfRows)}
+          </span>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page >= Math.ceil(data.totalCount / data.numOfRows)}
+            className="px-4 py-2 rounded-pill font-mono text-[13px] border border-border-default disabled:opacity-40"
+          >
+            다음
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
