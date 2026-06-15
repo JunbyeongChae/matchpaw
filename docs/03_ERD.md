@@ -1,11 +1,11 @@
 # ERD (Entity Relationship Document) — matchpaw
 
-**문서 버전**: v0.1
+**문서 버전**: v1.0
 **작성자**: 개인 프로젝트
 **최초 작성일**: 2026-06-11
-**최종 수정일**: 2026-06-11
-**참조 TDD**: v0.2
-**상태**: [x] 초안 / [ ] 진행 중 / [ ] 완료
+**최종 수정일**: 2026-06-15
+**참조 TDD**: v1.0
+**상태**: [ ] 초안 / [ ] 진행 중 / [x] 완료
 
 ---
 
@@ -42,8 +42,18 @@ erDiagram
     string   shelterName
     string   shelterTel
     string   imageUrl
+    string   kindNm
     string   noticeEdt
     datetime createdAt
+  }
+
+  daily_match_counts {
+    string   id
+    string   ipAddress
+    string   date
+    int      count
+    datetime createdAt
+    datetime updatedAt
   }
 
   checklists {
@@ -67,6 +77,7 @@ erDiagram
   users ||--o{ favorites : "has many"
   users ||--o{ checklists : "has many"
   checklists ||--o{ checklist_items : "has many"
+  daily_match_counts }o--|| daily_match_counts : "ipAddress+date unique"
 ```
 
 ---
@@ -105,7 +116,8 @@ erDiagram
 | `animalWeight` | `STRING` | NULL | — | — | 동물 체중 (예: 5.0 (kg)) |
 | `shelterName` | `STRING` | NOT NULL | — | — | 보호소 이름 |
 | `shelterTel` | `STRING` | NULL | — | — | 보호소 연락처 |
-| `imageUrl` | `STRING` | NULL | — | — | 동물 사진 URL (공공 API popfile) |
+| `imageUrl` | `STRING` | NULL | — | — | 동물 사진 URL (공공 API popfile1) |
+| `kindNm` | `STRING` | NULL | — | — | 품종명 한국어 (예: 한국 고양이). kindCd(숫자 코드) 대신 kindNm(품종명)을 저장해 찜 목록에서 바로 표시 |
 | `noticeEdt` | `STRING` | NOT NULL | — | — | 공고 종료일 (YYYYMMDD 형식, D-day 계산용) |
 | `createdAt` | `DATETIME` | NOT NULL | `now()` | — | 찜 저장 시각 |
 
@@ -153,6 +165,25 @@ erDiagram
 
 ---
 
+## 2-5. daily_match_counts
+
+> 비회원의 일별 AI 매칭 사용 횟수를 IP 주소 + 날짜 복합키로 저장한다. 시크릿 모드·쿠키 삭제 우회를 방지하기 위해 서버 DB에 저장한다.
+
+| 컬럼명 | 타입 | NULL | 기본값 | 키 | 설명 |
+|---|---|---|---|---|---|
+| `id` | `STRING` | NOT NULL | `cuid()` | PK | CUID 기반 고유 식별자 |
+| `ipAddress` | `STRING` | NOT NULL | — | IDX | 클라이언트 IP 주소 (`X-Forwarded-For` 기준) |
+| `date` | `STRING` | NOT NULL | — | IDX | 날짜 (YYYY-MM-DD 형식) |
+| `count` | `INT` | NOT NULL | `0` | — | 해당 날짜 매칭 요청 횟수 |
+| `createdAt` | `DATETIME` | NOT NULL | `now()` | — | 레코드 최초 생성 시각 |
+| `updatedAt` | `DATETIME` | NOT NULL | — | — | 카운트 마지막 갱신 시각 |
+
+**제약 조건**
+
+- `(ipAddress, date)` 조합은 유일해야 한다. upsert로 관리.
+
+---
+
 ## 3. 관계 정의
 
 | 관계 | 종류 | onDelete | 설명 |
@@ -160,6 +191,7 @@ erDiagram
 | `users` → `favorites` | 1 : N | `CASCADE` | 회원이 탈퇴하면 찜 목록도 함께 삭제된다 |
 | `users` → `checklists` | 1 : N | `CASCADE` | 회원이 탈퇴하면 저장된 체크리스트도 함께 삭제된다 |
 | `checklists` → `checklist_items` | 1 : N | `CASCADE` | 체크리스트가 삭제되면 항목도 함께 삭제된다 |
+| `daily_match_counts` | 독립 | — | users와 관계 없음. IP 기반 비회원 카운트 전용 |
 
 ---
 
@@ -173,6 +205,7 @@ erDiagram
 | `checklist_items` | `checklistId` | 단일 | 체크리스트별 항목 조회(`WHERE checklistId`) 성능 개선 |
 | `checklist_items` | `category` | 단일 | 카테고리별 항목 필터링 쿼리(`WHERE category`)에 사용 |
 | `checklists` | `(userId, animalId)` | 복합 (UK) | 동일 동물 중복 체크리스트 방지. 유니크 제약도 겸함 |
+| `daily_match_counts` | `(ipAddress, date)` | 복합 (UK) | IP + 날짜 upsert 쿼리 성능. 유니크 제약도 겸함 |
 
 ---
 
@@ -184,6 +217,8 @@ erDiagram
 | 찜 목록 데이터 | 스냅샷 저장 (핵심 컬럼 복사) | 원본 API desertionNo만 FK로 저장 | 공공 API 원본이 입양완료·사망으로 삭제되어도 찜 목록에서 동물 정보를 유지하기 위해 |
 | PK 타입 | CUID (문자열) | Auto Increment (정수) | URL 노출 시 순차 ID보다 보안상 유리. Prisma 기본 권장 방식 |
 | 비회원 체크리스트 | DB 미저장 | 비회원 임시 세션 저장 | 비회원에게 DB row를 생성하지 않아 서버 부하 최소화. 비회원 체크는 세션 내 임시 사용 허용 |
+| 비회원 매칭 횟수 | `daily_match_counts` DB 저장 | 쿠키 카운트 | 시크릿 모드·쿠키 삭제 우회 방지. IP + 날짜 복합키로 upsert |
+| 찜 kindNm 저장 | Favorite에 kindNm 컬럼 추가 | kindCd(코드 번호)만 저장 | 공공 API kindCd는 숫자 코드. 찜 목록에서 품종명(한국어)을 바로 표시하려면 저장 시 kindNm을 복사해둬야 함 |
 
 ---
 
@@ -194,7 +229,7 @@ erDiagram
 | 유기동물 원본 목록 | 외부 공공 API 실시간 조회 (DB 미저장) | 공공 API가 실시간 보호 상태를 제공하므로 DB 동기화 복잡도 없이 처리 |
 | 찜 동물 정보 | DB (`favorites` 테이블 스냅샷) | 원본 API 데이터가 삭제되어도 찜 목록 데이터를 보존하기 위해 |
 | AI 체크리스트 | DB (`checklists`, `checklist_items` 테이블) — 회원 전용 | 회원이 체크 진행 상황을 저장하고 언제든 재조회할 수 있어야 하므로 |
-| 비회원 매칭 횟수 | 쿠키 (DB 미저장) | 비회원에게 DB row를 생성하지 않고 서버 부하를 최소화하기 위해 |
+| 비회원 매칭 횟수 | DB (`daily_match_counts`, IP+날짜 복합키) | 쿠키 방식보다 우회 차단 강함. 시크릿 모드·쿠키 삭제 후에도 제한 유지 |
 | JWT | httpOnly 쿠키 (DB 미저장) | Stateless 인증. XSS 방지를 위해 httpOnly 쿠키로 저장 |
 
 ---
@@ -206,6 +241,7 @@ erDiagram
 | 버전 | 날짜 | 변경 내용 |
 |---|---|---|
 | v0.1 | 2026-06-11 | 최초 작성 |
+| v1.0 | 2026-06-15 | Favorite에 `kindNm` 컬럼 추가 / `DailyMatchCount` 테이블 신규 추가 (비회원 IP 횟수 제한) / 상태 완료로 갱신 |
 
 ### 용어 정의
 
