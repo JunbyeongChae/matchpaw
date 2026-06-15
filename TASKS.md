@@ -11,13 +11,13 @@
 
 ## 현재 단계: Phase 5 — 통합 테스트 및 최종 배포 (6/23~25)
 
-### TODO
+### DONE
 
-- [ ] Vercel 환경변수 설정 (`GEMINI_API_KEY`, `ANIMAL_API_KEY`, `JWT_SECRET`)
-- [ ] Vercel 배포 후 전체 기능 통합 테스트
-- [ ] 반응형 (375px~1440px) 전 구간 확인
-- [ ] 보안 체크리스트 통과 (API 키 노출 없음, console.log 제거 등)
-- [ ] README 작성
+- [x] Vercel 환경변수 설정 (`GEMINI_API_KEY`, `ANIMAL_API_KEY`, `JWT_SECRET`)
+- [x] Vercel 배포 후 전체 기능 통합 테스트
+- [x] 반응형 (375px~1440px) 전 구간 확인
+- [x] 보안 체크리스트 통과 (API 키 노출 없음, console.log 제거, 비회원 제한 검증)
+- [x] README 작성
 
 ---
 
