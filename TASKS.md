@@ -14,7 +14,7 @@
 ### TODO
 
 - [x] #K1 `reset-password/page.tsx` — `PASSWORD_REGEX` 인라인 중복, `lib/validation.ts` import로 교체
-- [ ] #K2 `types/match.ts` — Gemini 전환 후 "Claude" 주석 미수정
+- [x] #K2 `types/match.ts` — Gemini 전환 후 "Claude" 주석 미수정
 - [ ] #K3 `useFavorites.toggle` — mutation 진행 중 중복 클릭 방어 (`isPending` 가드)
 - [ ] #K4 `AuthModal.handleLogout` — 로그아웃 중 로딩 상태 없음
 - [ ] #K5 `Card.tsx` — 미사용 컴포넌트 삭제

@@ -4,7 +4,7 @@ import type { AbandonedAnimalItem } from './animal';
 export interface MatchedAnimal {
   animal: AbandonedAnimalItem;
   score: number;          // 0~100 매칭 점수
-  comment: string;        // Claude가 생성한 감성 코멘트
+  comment: string;        // Gemini가 생성한 감성 코멘트
   reasons: string[];      // 매칭 이유 목록
 }
 
