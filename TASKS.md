@@ -13,7 +13,7 @@
 
 ### TODO
 
-- [ ] #N1 `checklists/[id]/items/[itemId]/route.ts` — IDOR 취약점: `where: { id: checklistItemId, checklistId }` 로 소속 검증 추가 (High)
+- [x] #N1 `checklists/[id]/items/[itemId]/route.ts` — IDOR 취약점: `where: { id: checklistItemId, checklistId }` 로 소속 검증 추가 (High)
 - [ ] #N2 `match/route.ts` — `numOfRows` 무제한 입력 방지: `Math.min(numOfRows ?? 20, 100)` 클램핑 추가 (High)
 - [ ] #N3 `forgot-password/route.ts` — 미가입 이메일 404 → 200으로 통일해 이메일 열거 공격 차단 (Medium)
 - [ ] #N4 `forgot-password/route.ts` — IP 기반 분당 3회 rate limit 추가 (Medium)

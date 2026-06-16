@@ -32,7 +32,7 @@ export async function PATCH(
   const body: UpdateChecklistItemBody = await req.json();
 
   const item = await prisma.checklistItem.update({
-    where: { id: checklistItemId },
+    where: { id: checklistItemId, checklistId },
     data: { isChecked: body.isChecked },
   });
 
