@@ -18,7 +18,7 @@
 - [x] #N3 `forgot-password/route.ts` — 미가입 이메일 404 → 200으로 통일해 이메일 열거 공격 차단 (Medium)
 - [x] #N4 `forgot-password/route.ts` — IP 기반 분당 3회 rate limit 추가 (Medium)
 - [x] #N5 `auth/register`, `auth/login` — Prisma P2002 unique 충돌 → 500 대신 409 반환 (Medium)
-- [ ] #N6 `useFavorites` — 401 응답 묵살 → 에러 throw로 인증 만료 감지 (Medium)
+- [x] #N6 `useFavorites` — 401 응답 묵살 → 에러 throw로 인증 만료 감지 (Medium)
 - [ ] #N7 `match/route.ts` — 비회원 rate limit 선증가: 매칭 실패 시에도 횟수 차는 문제 수정 (Medium)
 
 ---
