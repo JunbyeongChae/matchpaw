@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Modal from './Modal';
 import Button from './Button';
 import { useAuthStore } from '@/store/authStore';
@@ -45,8 +46,8 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           setError('올바른 이메일 형식이 아닙니다.');
           return;
         }
-        if (password.length < 8) {
-          setError('비밀번호는 8자 이상이어야 합니다.');
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) {
+          setError('비밀번호는 영문 대/소문자, 숫자를 포함해 8자 이상이어야 합니다.');
           return;
         }
         if (nickname.length < 2 || nickname.length > 20) {
@@ -175,6 +176,14 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
             {mode === 'login' ? '회원가입' : '로그인'}
           </button>
         </p>
+
+        {mode === 'login' && (
+          <p className="text-center text-sm font-mono text-text-muted">
+            <Link href="/forgot-password" onClick={onClose} className="text-text-muted underline">
+              비밀번호를 잊으셨나요?
+            </Link>
+          </p>
+        )}
       </form>
     </Modal>
   );

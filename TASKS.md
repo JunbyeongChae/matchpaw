@@ -9,7 +9,28 @@
 
 ---
 
-## 현재 단계: 버그픽스 & 개선
+## 현재 단계: feature/password-reset — 비밀번호 찾기 구현
+
+> 브랜치: `feature/password-reset`
+> Resend API 이메일 발송 기반. 아래 순서대로 진행.
+
+### TODO
+
+- [ ] Vercel 환경변수에 `RESEND_API_KEY`, `APP_URL` 추가 (배포 전 필수)
+
+### DONE
+
+- [x] `prisma/schema.prisma` — `PasswordResetToken` 모델 추가 + `prisma db push`
+- [x] `npm install resend` — Resend 패키지 설치
+- [x] `.env.example` — `RESEND_API_KEY`, `APP_URL` 추가
+- [x] `lib/email.ts` — Resend 클라이언트 + `sendPasswordResetEmail` 함수
+- [x] `app/api/auth/forgot-password/route.ts` — POST: 토큰 생성 + 이메일 발송
+- [x] `app/api/auth/reset-password/route.ts` — POST: 토큰 검증 + 비밀번호 변경
+- [x] `app/forgot-password/page.tsx` — 이메일 입력 UI
+- [x] `app/reset-password/page.tsx` — 새 비밀번호 입력 UI (`?token=` 파라미터)
+- [x] `components/common/AuthModal.tsx` — "비밀번호를 잊으셨나요?" 링크 추가
+
+---
 
 ## 버그픽스 & 개선
 
