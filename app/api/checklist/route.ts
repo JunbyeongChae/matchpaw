@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
   const userId = payload.userId;
 
-  let geminiResponse;
+  let geminiResponse: Awaited<ReturnType<typeof generateChecklist>>;
   try {
     geminiResponse = await generateChecklist({
       animalId,
