@@ -28,6 +28,36 @@
 이 경험에서 얻은 인사이트. 포트폴리오에서 강조할 포인트.
 -->
 
+## CH-05. 유기동물 목록 중복 카드 — 공공 API 자체 중복 응답 미처리
+
+**날짜**: 2026-06-16
+**Phase**: 버그픽스
+**난이도**: 하
+
+### Problem
+유기동물 목록 페이지에서 동일한 동물 카드가 여러 장 반복 노출됐다. `key={animal.desertionNo}`로 렌더링하고 있어 React key 경고도 발생했다.
+
+### Tried
+- 프론트엔드 렌더링 로직, 페이지네이션, TanStack Query 캐시 순서로 확인 → 이상 없음
+- 공공 유기동물 API 응답을 직접 확인 → 동일한 `desertionNo`를 가진 항목이 하나의 응답 안에 중복 포함되어 있음
+
+### Solution
+`lib/animalApi.ts`의 `fetchAnimalList`에서 API 응답 정규화 직후 `Set`으로 `desertionNo` 기준 중복 제거.
+
+```typescript
+const seen = new Set<string>();
+const items = normalized.filter((a) => {
+  if (seen.has(a.desertionNo)) return false;
+  seen.add(a.desertionNo);
+  return true;
+});
+```
+
+### Lesson
+외부 공공 API의 응답 데이터 품질을 신뢰할 수 없다. API 클라이언트 레이어(`lib/`)에서 데이터를 받는 즉시 정규화·중복 제거를 수행해야 한다. 특히 공공 데이터 포털 API는 중복, 누락, 형식 불일치가 빈번하므로 방어적으로 처리하는 습관이 필요하다.
+
+---
+
 ## CH-04. Rate Limit 날짜 — UTC 기준으로 한국 시간과 최대 9시간 차이
 
 **날짜**: 2026-06-15

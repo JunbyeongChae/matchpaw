@@ -41,7 +41,13 @@ export async function fetchAnimalList(params: AnimalListParams = {}): Promise<{
   const body = data.response.body;
 
   const rawItems = body.items?.item;
-  const items = rawItems ? normalizeItems(rawItems) : [];
+  const normalized = rawItems ? normalizeItems(rawItems) : [];
+  const seen = new Set<string>();
+  const items = normalized.filter((a) => {
+    if (seen.has(a.desertionNo)) return false;
+    seen.add(a.desertionNo);
+    return true;
+  });
 
   return {
     items,
