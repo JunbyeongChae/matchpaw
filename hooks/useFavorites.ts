@@ -12,6 +12,7 @@ export function useFavorites() {
       if (!data.success) return [];
       return data.data.favorites;
     },
+    staleTime: 1000 * 30,
   });
 
   const favorites = data ?? [];
