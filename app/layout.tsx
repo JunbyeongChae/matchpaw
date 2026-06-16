@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Mono, Plus_Jakarta_Sans, Be_Vietnam_Pro } from 'next/font/google';
+import { Chiron_GoRound_TC, Plus_Jakarta_Sans, Be_Vietnam_Pro } from 'next/font/google';
 import './globals.css';
 import QueryProvider from '@/components/common/QueryProvider';
 import Header from '@/components/common/Header';
 import BottomNav from '@/components/common/BottomNav';
 
-const ibmPlexMono = IBM_Plex_Mono({
+const chironGoRoundTC = Chiron_GoRound_TC({
   subsets: ['latin'],
-  weight: ['400', '500'],
   variable: '--font-mono',
 });
 
@@ -32,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="ko"
-      className={`h-full ${ibmPlexMono.variable} ${plusJakartaSans.variable} ${beVietnamPro.variable}`}
+      className={`h-full ${chironGoRoundTC.variable} ${plusJakartaSans.variable} ${beVietnamPro.variable}`}
     >
       <body className="min-h-full bg-surface-page">
         <QueryProvider>
