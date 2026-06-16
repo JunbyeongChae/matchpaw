@@ -23,7 +23,13 @@
 
 ### DONE
 
-_(없음 — 작업 시작 전)_
+- [x] #J1 `AuthModal` — `error` state에 성공 메시지 담는 구조 수정 (`status` 분리)
+- [x] #J2 `/api/animals` — `pageNo=abc` 같은 입력에서 `NaN`이 외부 API에 전달되는 버그 수정
+- [x] #J3 Validation 정규식 중복 — `lib/validation.ts`로 추출해 클라이언트·서버 공유
+- [x] #J4 체크리스트 API — 전체 fetch 후 UI `slice(0,1)` → API에서 최신 1개만 반환하도록 개선
+- [x] #J5 비밀번호 재설정 토큰 — 새 토큰 발급 시 기존 미만료 토큰 무효화
+- [x] #J6 `useFavorites` — 찜 추가·삭제 실패 시 `onError` 피드백 추가
+- [x] #J7 `favorites/[id]` DELETE — 없는 리소스 404 / 권한 없음 403 분리_
 
 ---
 
