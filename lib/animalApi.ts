@@ -58,8 +58,8 @@ export async function fetchAnimalList(params: AnimalListParams = {}): Promise<{
 }
 
 export async function fetchAnimalById(desertionNo: string): Promise<AbandonedAnimalItem | null> {
-  // 공공 API는 desertionNo 단일 조회를 지원하지 않으므로 공고 중 목록에서 검색
-  const params = buildParams({ numOfRows: 100, pageNo: 1, state: 'notice' });
+  // 공공 API는 desertionNo 단일 조회를 지원하지 않으므로 전체 목록에서 검색
+  const params = buildParams({ numOfRows: 1000, pageNo: 1 });
 
   const url = `${BASE_URL}?${params}`;
   const res = await fetch(url, { next: { revalidate: 60 } });
