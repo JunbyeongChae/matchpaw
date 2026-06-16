@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Modal from './Modal';
 import Button from './Button';
 import { useAuthStore } from '@/store/authStore';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/lib/validation';
 
 type Mode = 'login' | 'register';
 
@@ -42,11 +43,11 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 
     try {
       if (mode === 'register') {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (!EMAIL_REGEX.test(email)) {
           setFeedback({ message: '올바른 이메일 형식이 아닙니다.', type: 'error' });
           return;
         }
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) {
+        if (!PASSWORD_REGEX.test(password)) {
           setFeedback({ message: '비밀번호는 영문 대/소문자, 숫자를 포함해 8자 이상이어야 합니다.', type: 'error' });
           return;
         }
