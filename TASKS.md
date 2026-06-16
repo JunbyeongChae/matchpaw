@@ -17,7 +17,7 @@
 - [x] #K2 `types/match.ts` — Gemini 전환 후 "Claude" 주석 미수정
 - [x] #K3 `useFavorites.toggle` — mutation 진행 중 중복 클릭 방어 (`isPending` 가드)
 - [x] #K4 `AuthModal.handleLogout` — 로그아웃 중 로딩 상태 없음
-- [ ] #K5 `Card.tsx` — 미사용 컴포넌트 삭제
+- [x] #K5 `Card.tsx` — 미사용 컴포넌트 삭제
 - [ ] #K6 동물 종 판별 매직 넘버 `'417000'` 세 곳 중복 → 상수 추출
 - [ ] #K7 `types/animal.ts` — `state` 파라미터 주석 오류 및 리터럴 유니온 타입으로 개선
 
