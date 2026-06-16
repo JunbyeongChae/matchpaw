@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/lib/auth';
+import { PASSWORD_REGEX } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) {
+    if (!PASSWORD_REGEX.test(password)) {
       return NextResponse.json(
         { success: false, error: { code: 'INVALID_PASSWORD', message: '비밀번호는 영문 대/소문자, 숫자를 포함해 8자 이상이어야 합니다.' } },
         { status: 400 }
