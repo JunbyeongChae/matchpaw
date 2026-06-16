@@ -8,7 +8,7 @@ import Button from '@/components/common/Button';
 
 export default function FavoritesPage() {
   const user = useAuthStore((s) => s.user);
-  const { favorites, toggle } = useFavorites();
+  const { favorites, removeById } = useFavorites();
 
   if (!user) {
     return (
@@ -48,7 +48,7 @@ export default function FavoritesPage() {
             <FavoriteCard
               key={fav.id}
               favorite={fav}
-              onRemove={(id) => toggle(favorites.find((f) => f.id === id)!.animalId)}
+              onRemove={removeById}
             />
           ))}
         </div>

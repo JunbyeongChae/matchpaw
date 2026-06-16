@@ -47,5 +47,10 @@ export function useFavorites() {
     else addMutation.mutate({ animalId, imageUrl, kindNm });
   }
 
-  return { favorites, favoriteIds, toggle };
+  function removeById(favoriteId: number) {
+    if (removeMutation.isPending) return;
+    removeMutation.mutate(favoriteId);
+  }
+
+  return { favorites, favoriteIds, toggle, removeById };
 }
