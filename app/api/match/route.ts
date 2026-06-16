@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
   }
 
   const body: { surveyAnswers: SurveyAnswers; numOfRows?: number } = await req.json();
-  const { surveyAnswers, numOfRows = 20 } = body;
+  const { surveyAnswers, numOfRows } = body;
+  const clampedNumOfRows = Math.min(numOfRows ?? 20, 100);
 
   if (!surveyAnswers) {
     return NextResponse.json(
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
 
   let animals: Awaited<ReturnType<typeof fetchAnimalList>>['items'];
   try {
-    const { items } = await fetchAnimalList({ numOfRows, state: 'notice' });
+    const { items } = await fetchAnimalList({ numOfRows: clampedNumOfRows, state: 'notice' });
     animals = items;
   } catch {
     return NextResponse.json(
