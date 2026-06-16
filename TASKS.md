@@ -15,7 +15,7 @@
 
 - [x] #M1 `animals/page.tsx` — 매직 넘버 `'417000'`, `'422400'` → `DOG_UP_KIND_CD`, `CAT_UP_KIND_CD` 상수 적용 (`lib/constants.ts`에 `CAT_UP_KIND_CD` 추가 포함)
 - [x] #M2 `types/survey.ts` — 사용되지 않는 제네릭 타입 `SurveyQuestion<T>`, `SurveyOption<T>` 제거
-- [ ] #M3 `types/api.ts` — dead type 파일 삭제 (`ApiResponse`, `ApiError`, `ApiSuccess`, `PaginatedData` 전부 미사용)
+- [x] #M3 `types/api.ts` — dead type 파일 삭제 (`ApiResponse`, `ApiError`, `ApiSuccess`, `PaginatedData` 전부 미사용)
 - [ ] #M4 `checklist/page.tsx` — `staleTime: 0` 제거
 - [ ] #M5 `api/checklist/route.ts` — `geminiResponse` 암묵적 any → `Awaited<ReturnType<typeof generateChecklist>>` 명시적 타입 추가
 
