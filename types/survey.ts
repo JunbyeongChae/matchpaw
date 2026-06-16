@@ -16,14 +16,3 @@ export interface SurveyAnswers {
   householdType: HouseholdType;
 }
 
-export interface SurveyQuestion<T extends string> {
-  id: keyof SurveyAnswers;
-  question: string;
-  options: SurveyOption<T>[];
-}
-
-export interface SurveyOption<T extends string> {
-  value: T;
-  label: string;
-  description?: string;
-}
