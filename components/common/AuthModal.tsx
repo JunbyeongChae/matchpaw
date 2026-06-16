@@ -21,6 +21,7 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
   const [nickname, setNickname] = useState('');
   const [feedback, setFeedback] = useState<{ message: string; type: 'error' | 'success' } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   const setUser = useAuthStore((s) => s.setUser);
 
@@ -87,13 +88,18 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
   }
 
   async function handleLogout() {
-    const res = await fetch('/api/auth/logout', { method: 'POST' });
-    if (!res.ok) {
-      alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-      return;
+    setLogoutLoading(true);
+    try {
+      const res = await fetch('/api/auth/logout', { method: 'POST' });
+      if (!res.ok) {
+        alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+        return;
+      }
+      setUser(null);
+      onClose();
+    } finally {
+      setLogoutLoading(false);
     }
-    setUser(null);
-    onClose();
   }
 
   const user = useAuthStore((s) => s.user);
@@ -107,7 +113,7 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
             <p className="text-base font-mono font-medium text-text-primary mt-0.5">{user.nickname}</p>
             <p className="text-sm font-mono text-text-muted mt-1">{user.email}</p>
           </div>
-          <Button variant="ghost" className="w-full" onClick={handleLogout}>
+          <Button variant="ghost" className="w-full" loading={logoutLoading} onClick={handleLogout}>
             로그아웃
           </Button>
         </div>

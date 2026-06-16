@@ -41,6 +41,7 @@ export function useFavorites() {
   });
 
   function toggle(animalId: string, imageUrl?: string, kindNm?: string) {
+    if (addMutation.isPending || removeMutation.isPending) return;
     const existing = favorites.find((f) => f.animalId === animalId);
     if (existing) removeMutation.mutate(existing.id);
     else addMutation.mutate({ animalId, imageUrl, kindNm });

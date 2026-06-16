@@ -9,17 +9,34 @@
 
 ---
 
-## 현재 단계: 2차 이슈 수정
+## 현재 단계: 
 
 ### TODO
 
-- [x] #J1 `AuthModal` — `error` state에 성공 메시지 담는 구조 수정 (`status` 분리)
-- [x] #J2 `/api/animals` — `pageNo=abc` 같은 입력에서 `NaN`이 외부 API에 전달되는 버그 수정
-- [x] #J3 Validation 정규식 중복 — `lib/validation.ts`로 추출해 클라이언트·서버 공유
-- [x] #J4 체크리스트 API — 전체 fetch 후 UI `slice(0,1)` → API에서 최신 1개만 반환하도록 개선
-- [x] #J5 비밀번호 재설정 토큰 — 새 토큰 발급 시 기존 미만료 토큰 무효화
-- [x] #J6 `useFavorites` — 찜 추가·삭제 실패 시 `onError` 피드백 추가
-- [x] #J7 `favorites/[id]` DELETE — 없는 리소스 404 / 권한 없음 403 분리
+_(없음)_
+
+### DONE
+
+_(없음)_
+
+
+---
+
+## 3차 이슈 수정
+
+### DONE
+
+- [x] #K1 `reset-password/page.tsx` — `PASSWORD_REGEX` 인라인 중복, `lib/validation.ts` import로 교체
+- [x] #K2 `types/match.ts` — Gemini 전환 후 "Claude" 주석 미수정
+- [x] #K3 `useFavorites.toggle` — mutation 진행 중 중복 클릭 방어 (`isPending` 가드)
+- [x] #K4 `AuthModal.handleLogout` — 로그아웃 중 로딩 상태 없음
+- [x] #K5 `Card.tsx` — 미사용 컴포넌트 삭제
+- [x] #K6 동물 종 판별 매직 넘버 `'417000'` 세 곳 중복 → 상수 추출
+- [x] #K7 `types/animal.ts` — `state` 파라미터 주석 오류 및 리터럴 유니온 타입으로 개선
+
+---
+
+## 2차 이슈 수정
 
 ### DONE
 
@@ -29,7 +46,7 @@
 - [x] #J4 체크리스트 API — 전체 fetch 후 UI `slice(0,1)` → API에서 최신 1개만 반환하도록 개선
 - [x] #J5 비밀번호 재설정 토큰 — 새 토큰 발급 시 기존 미만료 토큰 무효화
 - [x] #J6 `useFavorites` — 찜 추가·삭제 실패 시 `onError` 피드백 추가
-- [x] #J7 `favorites/[id]` DELETE — 없는 리소스 404 / 권한 없음 403 분리_
+- [x] #J7 `favorites/[id]` DELETE — 없는 리소스 404 / 권한 없음 403 분리
 
 ---
 

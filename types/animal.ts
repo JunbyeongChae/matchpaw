@@ -58,7 +58,7 @@ export interface AnimalListParams {
   upr_cd?: string;      // 시도코드
   org_cd?: string;      // 시군구코드
   care_reg_no?: string; // 보호소번호
-  state?: string;       // 상태 (protect | end)
+  state?: 'notice' | 'protect' | 'end'; // 상태 (notice: 공고중 | protect: 보호중 | end: 종료)
   pageNo?: number;
   numOfRows?: number;
 }

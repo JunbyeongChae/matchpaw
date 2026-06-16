@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     kind: searchParams.get('kind') ?? undefined,
     upr_cd: searchParams.get('upr_cd') ?? undefined,
     org_cd: searchParams.get('org_cd') ?? undefined,
-    state: searchParams.get('state') ?? undefined,
+    state: (searchParams.get('state') ?? undefined) as AnimalListParams['state'],
     bgnde: searchParams.get('bgnde') ?? undefined,
     endde: searchParams.get('endde') ?? undefined,
   };
