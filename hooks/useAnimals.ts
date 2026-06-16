@@ -30,6 +30,7 @@ export function useAnimals(params: AnimalListParams = {}) {
       if (!data.success) throw new Error(data.error.message);
       return data.data;
     },
+    staleTime: 1000 * 60 * 5,
   });
 }
 

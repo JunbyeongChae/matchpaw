@@ -33,7 +33,7 @@ export async function fetchAnimalList(params: AnimalListParams = {}): Promise<{
   numOfRows: number;
 }> {
   const url = `${BASE_URL}?${buildParams(params)}`;
-  const res = await fetch(url, { next: { revalidate: 300 } });
+  const res = await fetch(url, { next: { revalidate: 3600 } });
 
   if (!res.ok) throw new Error(`공공 API 오류: ${res.status}`);
 
