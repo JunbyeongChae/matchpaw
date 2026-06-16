@@ -20,7 +20,6 @@ export default function ChecklistPage() {
       return data.data.checklists;
     },
     enabled: !!user,
-    staleTime: 0,
   });
 
   const toggleMutation = useMutation({
