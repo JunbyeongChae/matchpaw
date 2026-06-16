@@ -19,7 +19,7 @@
 - [x] #J4 체크리스트 API — 전체 fetch 후 UI `slice(0,1)` → API에서 최신 1개만 반환하도록 개선
 - [x] #J5 비밀번호 재설정 토큰 — 새 토큰 발급 시 기존 미만료 토큰 무효화
 - [x] #J6 `useFavorites` — 찜 추가·삭제 실패 시 `onError` 피드백 추가
-- [ ] #J7 `favorites/[id]` DELETE — 없는 리소스 404 / 권한 없음 403 분리
+- [x] #J7 `favorites/[id]` DELETE — 없는 리소스 404 / 권한 없음 403 분리
 
 ### DONE
 
