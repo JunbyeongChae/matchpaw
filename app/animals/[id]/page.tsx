@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useAnimal } from '@/hooks/useAnimals';
+import { DOG_UP_KIND_CD } from '@/lib/constants';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useAuthStore } from '@/store/authStore';
 import { Skeleton } from '@/components/common/Skeleton';
@@ -72,7 +73,7 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
     );
   }
 
-  const isDog = animal.upKindCd === '417000';
+  const isDog = animal.upKindCd === DOG_UP_KIND_CD;
   const isFavorited = favoriteIds.has(animal.desertionNo);
 
   return (

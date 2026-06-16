@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { AbandonedAnimalItem } from '@/types/animal';
+import { DOG_UP_KIND_CD } from '@/lib/constants';
 
 interface AnimalCardProps {
   animal: AbandonedAnimalItem;
@@ -12,7 +13,7 @@ interface AnimalCardProps {
 }
 
 export default function AnimalCard({ animal, onFavorite, isFavorited, priority = false }: AnimalCardProps) {
-  const isDog = animal.upKindCd === '417000';
+  const isDog = animal.upKindCd === DOG_UP_KIND_CD;
 
   return (
     <div

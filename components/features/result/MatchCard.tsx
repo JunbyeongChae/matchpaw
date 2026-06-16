@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { MatchedAnimal } from '@/types/match';
+import { DOG_UP_KIND_CD } from '@/lib/constants';
 
 interface MatchCardProps {
   match: MatchedAnimal;
@@ -40,7 +41,7 @@ export default function MatchCard({ match, rank }: MatchCardProps) {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-2xl">
-                {animal.upKindCd === '417000' ? '🐶' : '🐱'}
+                {animal.upKindCd === DOG_UP_KIND_CD ? '🐶' : '🐱'}
               </div>
             )}
           </div>
