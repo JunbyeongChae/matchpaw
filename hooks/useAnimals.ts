@@ -1,18 +1,11 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import type { AbandonedAnimalItem } from '@/types/animal';
+import type { AbandonedAnimalItem, AnimalListParams } from '@/types/animal';
 
 interface AnimalListResult {
   items: AbandonedAnimalItem[];
   totalCount: number;
   pageNo: number;
   numOfRows: number;
-}
-
-interface AnimalListParams {
-  pageNo?: number;
-  numOfRows?: number;
-  upkind?: string;
-  state?: string;
 }
 
 export function useAnimals(params: AnimalListParams = {}) {
