@@ -9,6 +9,20 @@
 
 ---
 
+## 6차 이슈 수정
+
+### DONE
+
+- [x] #N1 `checklists/[id]/items/[itemId]/route.ts` — IDOR 취약점: `where: { id: checklistItemId, checklistId }` 로 소속 검증 추가 (High)
+- [x] #N2 `match/route.ts` — `numOfRows` 무제한 입력 방지: `Math.min(numOfRows ?? 20, 100)` 클램핑 추가 (High)
+- [x] #N3 `forgot-password/route.ts` — 미가입 이메일 404 → 200으로 통일해 이메일 열거 공격 차단 (Medium)
+- [x] #N4 `forgot-password/route.ts` — IP 기반 분당 3회 rate limit 추가 (Medium)
+- [x] #N5 `auth/register`, `auth/login` — Prisma P2002 unique 충돌 → 500 대신 409 반환 (Medium)
+- [x] #N6 `useFavorites` — 401 응답 묵살 → 에러 throw로 인증 만료 감지 (Medium)
+- [x] #N7 `match/route.ts` — 비회원 rate limit 선증가: 매칭 실패 시에도 횟수 차는 문제 수정 (Medium)
+
+---
+
 ## 5차 이슈 수정
 
 ### DONE

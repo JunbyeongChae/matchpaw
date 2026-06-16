@@ -8,6 +8,7 @@ export function useFavorites() {
     queryKey: ['favorites'],
     queryFn: async () => {
       const res = await fetch('/api/favorites');
+      if (res.status === 401) throw new Error('UNAUTHORIZED');
       const data = await res.json();
       if (!data.success) return [];
       return data.data.favorites;

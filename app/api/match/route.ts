@@ -23,17 +23,15 @@ export async function POST(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
   const isLoggedIn = token ? !!verifyToken(token) : false;
 
-  if (!isLoggedIn) {
-    const ip = getIp(req);
-    const today = getToday();
+  const ip = getIp(req);
 
-    const record = await prisma.dailyMatchCount.upsert({
+  if (!isLoggedIn) {
+    const today = getToday();
+    const record = await prisma.dailyMatchCount.findUnique({
       where: { ipAddress_date: { ipAddress: ip, date: today } },
-      update: { count: { increment: 1 } },
-      create: { ipAddress: ip, date: today, count: 1 },
     });
 
-    if (record.count > DAILY_LIMIT) {
+    if (record && record.count >= DAILY_LIMIT) {
       return NextResponse.json(
         {
           success: false,
@@ -45,7 +43,8 @@ export async function POST(req: NextRequest) {
   }
 
   const body: { surveyAnswers: SurveyAnswers; numOfRows?: number } = await req.json();
-  const { surveyAnswers, numOfRows = 20 } = body;
+  const { surveyAnswers, numOfRows } = body;
+  const clampedNumOfRows = Math.min(numOfRows ?? 20, 100);
 
   if (!surveyAnswers) {
     return NextResponse.json(
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
 
   let animals: Awaited<ReturnType<typeof fetchAnimalList>>['items'];
   try {
-    const { items } = await fetchAnimalList({ numOfRows, state: 'notice' });
+    const { items } = await fetchAnimalList({ numOfRows: clampedNumOfRows, state: 'notice' });
     animals = items;
   } catch {
     return NextResponse.json(
@@ -96,7 +95,15 @@ export async function POST(req: NextRequest) {
     generatedAt: new Date().toISOString(),
   };
 
-  const ip = getIp(req);
+  if (!isLoggedIn) {
+    const today = getToday();
+    await prisma.dailyMatchCount.upsert({
+      where: { ipAddress_date: { ipAddress: ip, date: today } },
+      update: { count: { increment: 1 } },
+      create: { ipAddress: ip, date: today, count: 1 },
+    });
+  }
+
   try {
     await prisma.matchLog.create({
       data: {
