@@ -25,13 +25,30 @@ export default function ChecklistPage() {
 
   const toggleMutation = useMutation({
     mutationFn: async ({ checklistId, itemId, isChecked }: { checklistId: number; itemId: number; isChecked: boolean }) => {
-      await fetch(`/api/checklists/${checklistId}/items/${itemId}`, {
+      const res = await fetch(`/api/checklists/${checklistId}/items/${itemId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isChecked }),
       });
+      if (!res.ok) throw new Error('토글 실패');
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['checklists'] }),
+    onMutate: async ({ checklistId, itemId, isChecked }) => {
+      await queryClient.cancelQueries({ queryKey: ['checklists'] });
+      const previous = queryClient.getQueryData<Checklist[]>(['checklists']);
+      queryClient.setQueryData<Checklist[]>(['checklists'], (old) =>
+        old?.map((cl) =>
+          cl.id === checklistId
+            ? { ...cl, items: cl.items.map((it) => it.id === itemId ? { ...it, isChecked } : it) }
+            : cl
+        )
+      );
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(['checklists'], context.previous);
+      alert('저장에 실패했습니다. 다시 시도해주세요.');
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['checklists'] }),
   });
 
   if (!user) {

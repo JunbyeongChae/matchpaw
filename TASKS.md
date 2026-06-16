@@ -16,7 +16,7 @@
 - [x] #I1 `hooks/useMatch.ts` Dead Code 제거 — `survey/page.tsx` 직접 fetch 사용 중, hook 파일 삭제
 - [x] #I2 `fetchAnimalById` 탐색 범위 개선 — notice 100건 제한으로 상세 페이지 "찾을 수 없음" 발생
 - [x] #I3 `claudeApi.ts` → `geminiApi.ts` 리네임 — 파일명·타입명·import 전체 교체
-- [ ] #I4 체크리스트 토글 낙관적 업데이트 + 에러 피드백 추가
+- [x] #I4 체크리스트 토글 낙관적 업데이트 + 에러 피드백 추가
 - [ ] #I5 dead code 제거 — 미사용 변수·컴포넌트·import 정리
 
 ### DONE
