@@ -9,32 +9,28 @@
 
 ---
 
-## 현재 단계: feature/password-reset — 비밀번호 찾기 구현
-
-> 브랜치: `feature/password-reset`
-> Resend API 이메일 발송 기반. 아래 순서대로 진행.
+## 현재 단계: 잔여 이슈 수정 ✅ 완료
 
 ### TODO
 
-- [ ] Vercel 환경변수에 `RESEND_API_KEY`, `APP_URL` 추가 (배포 전 필수)
+_(없음)_
 
 ### DONE
 
-- [x] `prisma/schema.prisma` — `PasswordResetToken` 모델 추가 + `prisma db push`
-- [x] `npm install resend` — Resend 패키지 설치
-- [x] `.env.example` — `RESEND_API_KEY`, `APP_URL` 추가
-- [x] `lib/email.ts` — Resend 클라이언트 + `sendPasswordResetEmail` 함수
-- [x] `app/api/auth/forgot-password/route.ts` — POST: 토큰 생성 + 이메일 발송
-- [x] `app/api/auth/reset-password/route.ts` — POST: 토큰 검증 + 비밀번호 변경
-- [x] `app/forgot-password/page.tsx` — 이메일 입력 UI
-- [x] `app/reset-password/page.tsx` — 새 비밀번호 입력 UI (`?token=` 파라미터)
-- [x] `components/common/AuthModal.tsx` — "비밀번호를 잊으셨나요?" 링크 추가
+- [x] #I1 `hooks/useMatch.ts` Dead Code 제거 — `survey/page.tsx` 직접 fetch 사용 중, hook 파일 삭제
+- [x] #I2 `fetchAnimalById` 탐색 범위 개선 — notice 100건 제한으로 상세 페이지 "찾을 수 없음" 발생
+- [x] #I3 `claudeApi.ts` → `geminiApi.ts` 리네임 — 파일명·타입명·import 전체 교체
+- [x] #I4 체크리스트 토글 낙관적 업데이트 + 에러 피드백 추가
+- [x] #I5 dead code 제거 — 미사용 변수·컴포넌트·import 정리
+- [x] 비밀번호 찾기/재설정 기능 구현 (Resend 이메일 발송)
+- [x] Vercel 환경변수 `RESEND_API_KEY`, `APP_URL` 추가
+- [x] 신규이슈: `/forgot-password` 404 — 이미 구현 완료 (머지 전 리포트)
 
 ---
 
 ## 버그픽스 & 개선
 
-### TODO
+### DONE
 
 - [x] #01 `/api/match` — AI 분석 실패 시 에러 처리 및 클라이언트 피드백
 - [x] #02 `/api/animals` — 공공 API 실패 시 에러 처리
@@ -43,16 +39,6 @@
 - [x] #05 로그아웃 안전성 — 로그아웃 후 캐시 초기화 및 리다이렉트 처리
 - [x] #06 날짜 UTC 버그 — rate limit 날짜 UTC→KST 변환 오류 수정
 - [x] #07 이미지 도메인 — `next.config.ts`에 공공 API 이미지 도메인 https 허용 추가
-
-### 선택적 (Optional)
-
-- [ ] #08 dead code 제거 — 미사용 변수·컴포넌트·import 정리
-- [ ] #09 `fetchAnimalById` 개선 — 목록 100개 fetch 방식 최적화
-- [ ] #10 파일명 변경 — 컨벤션 불일치 파일명 정리
-- [ ] #11–12 찜/체크리스트 토글 UX 개선
-
-### DONE
-
 - [x] 모바일 로그아웃 버튼 BottomNav에 가려지는 버그 (`Header` 스태킹 컨텍스트)
 
 ---

@@ -1,11 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import type { ClaudeMatchRequest, ClaudeMatchResponse } from '@/types/match';
-import type { ClaudeChecklistRequest, ClaudeChecklistResponse } from '@/types/checklist';
+import type { GeminiMatchRequest, GeminiMatchResponse } from '@/types/match';
+import type { GeminiChecklistRequest, GeminiChecklistResponse } from '@/types/checklist';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const MODEL = 'gemini-2.5-flash-lite';
 
-export async function analyzeMatch(req: ClaudeMatchRequest): Promise<ClaudeMatchResponse> {
+export async function analyzeMatch(req: GeminiMatchRequest): Promise<GeminiMatchResponse> {
   const model = genAI.getGenerativeModel({
     model: MODEL,
     generationConfig: { responseMimeType: 'application/json' },
@@ -34,7 +34,7 @@ export async function analyzeMatch(req: ClaudeMatchRequest): Promise<ClaudeMatch
 
   const result = await model.generateContent(prompt);
   const text = result.response.text();
-  const parsed: ClaudeMatchResponse = JSON.parse(text);
+  const parsed: GeminiMatchResponse = JSON.parse(text);
 
   if (!Array.isArray(parsed.matches)) {
     throw new Error('Gemini 응답 파싱 실패: matches 배열이 없습니다.');
@@ -43,7 +43,7 @@ export async function analyzeMatch(req: ClaudeMatchRequest): Promise<ClaudeMatch
   return parsed;
 }
 
-export async function generateChecklist(req: ClaudeChecklistRequest): Promise<ClaudeChecklistResponse> {
+export async function generateChecklist(req: GeminiChecklistRequest): Promise<GeminiChecklistResponse> {
   const model = genAI.getGenerativeModel({
     model: MODEL,
     generationConfig: { responseMimeType: 'application/json' },
@@ -64,7 +64,7 @@ export async function generateChecklist(req: ClaudeChecklistRequest): Promise<Cl
 
   const result = await model.generateContent(prompt);
   const text = result.response.text();
-  const parsed: ClaudeChecklistResponse = JSON.parse(text);
+  const parsed: GeminiChecklistResponse = JSON.parse(text);
 
   if (typeof parsed.title !== 'string' || !Array.isArray(parsed.items)) {
     throw new Error('Gemini 응답 파싱 실패: title 또는 items가 없습니다.');
