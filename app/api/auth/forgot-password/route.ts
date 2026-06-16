@@ -3,8 +3,35 @@ import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email';
 
+const RATE_LIMIT = 3;
+const WINDOW_MS = 60 * 1000;
+
+function getIp(req: NextRequest): string {
+  return (
+    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
+    req.headers.get('x-real-ip') ??
+    '0.0.0.0'
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const ip = getIp(req);
+    const windowStart = new Date(Math.floor(Date.now() / WINDOW_MS) * WINDOW_MS);
+
+    const rateLimit = await prisma.emailRateLimit.upsert({
+      where: { ipAddress_windowStart: { ipAddress: ip, windowStart } },
+      update: { count: { increment: 1 } },
+      create: { ipAddress: ip, windowStart, count: 1 },
+    });
+
+    if (rateLimit.count > RATE_LIMIT) {
+      return NextResponse.json(
+        { success: false, error: { code: 'RATE_LIMIT', message: '잠시 후 다시 시도해주세요.' } },
+        { status: 429 }
+      );
+    }
+
     const { email } = await req.json();
 
     if (!email || typeof email !== 'string') {
