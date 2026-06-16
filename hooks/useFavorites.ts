@@ -28,13 +28,16 @@ export function useFavorites() {
       if (!res.ok) throw new Error('찜 추가 실패');
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
+    onError: () => alert('찜 추가에 실패했습니다. 다시 시도해주세요.'),
   });
 
   const removeMutation = useMutation({
     mutationFn: async (favoriteId: number) => {
-      await fetch(`/api/favorites/${favoriteId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/favorites/${favoriteId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('찜 삭제 실패');
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
+    onError: () => alert('찜 삭제에 실패했습니다. 다시 시도해주세요.'),
   });
 
   function toggle(animalId: string, imageUrl?: string, kindNm?: string) {

@@ -20,7 +20,15 @@ export async function DELETE(
   const favoriteId = Number(id);
 
   const favorite = await prisma.favorite.findUnique({ where: { id: favoriteId } });
-  if (!favorite || favorite.userId !== payload.userId) {
+
+  if (!favorite) {
+    return NextResponse.json(
+      { success: false, error: { code: 'FAVORITE_NOT_FOUND', message: '존재하지 않는 찜 항목입니다.' } },
+      { status: 404 }
+    );
+  }
+
+  if (favorite.userId !== payload.userId) {
     return NextResponse.json(
       { success: false, error: { code: 'FORBIDDEN', message: '접근 권한이 없습니다.' } },
       { status: 403 }

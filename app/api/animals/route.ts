@@ -5,9 +5,15 @@ import type { AnimalListParams } from '@/types/animal';
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
 
+  function toInt(value: string | null): number | undefined {
+    if (!value) return undefined;
+    const n = parseInt(value, 10);
+    return isNaN(n) ? undefined : n;
+  }
+
   const params: AnimalListParams = {
-    pageNo: searchParams.get('pageNo') ? Number(searchParams.get('pageNo')) : undefined,
-    numOfRows: searchParams.get('numOfRows') ? Number(searchParams.get('numOfRows')) : undefined,
+    pageNo: toInt(searchParams.get('pageNo')),
+    numOfRows: toInt(searchParams.get('numOfRows')),
     upkind: searchParams.get('upkind') ?? undefined,
     kind: searchParams.get('kind') ?? undefined,
     upr_cd: searchParams.get('upr_cd') ?? undefined,

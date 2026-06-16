@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
     where: { userId: payload.userId },
     include: { items: { orderBy: { order: 'asc' } } },
     orderBy: { createdAt: 'desc' },
+    take: 1,
   });
 
   return NextResponse.json({ success: true, data: { checklists } });
