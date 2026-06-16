@@ -72,9 +72,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let claudeResponse: Awaited<ReturnType<typeof analyzeMatch>>;
+  let geminiResponse: Awaited<ReturnType<typeof analyzeMatch>>;
   try {
-    claudeResponse = await analyzeMatch({ surveyAnswers, animals });
+    geminiResponse = await analyzeMatch({ surveyAnswers, animals });
   } catch {
     return NextResponse.json(
       { success: false, error: { code: 'AI_ERROR', message: 'AI 매칭 분석에 실패했습니다. 잠시 후 다시 시도해주세요.' } },
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const matchedAnimals = claudeResponse.matches
+  const matchedAnimals = geminiResponse.matches
     .map((m) => {
       const animal = animals.find((a) => a.desertionNo === m.desertionNo);
       if (!animal) return null;

@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
 
   const userId = payload.userId;
 
-  let claudeResponse;
+  let geminiResponse;
   try {
-    claudeResponse = await generateChecklist({
+    geminiResponse = await generateChecklist({
       animalId,
       animalKind,
       animalAge,
@@ -47,9 +47,9 @@ export async function POST(req: NextRequest) {
     data: {
       userId,
       animalId,
-      title: claudeResponse.title,
+      title: geminiResponse.title,
       items: {
-        create: claudeResponse.items.map((item) => ({
+        create: geminiResponse.items.map((item) => ({
           content: item.content,
           order: item.order,
           isChecked: false,

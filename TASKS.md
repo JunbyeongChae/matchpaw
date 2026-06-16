@@ -9,18 +9,19 @@
 
 ---
 
-## 현재 단계: 잔여 이슈 수정
+## 현재 단계: 잔여 이슈 수정 ✅ 완료
 
 ### TODO
+
+_(없음)_
+
+### DONE
 
 - [x] #I1 `hooks/useMatch.ts` Dead Code 제거 — `survey/page.tsx` 직접 fetch 사용 중, hook 파일 삭제
 - [x] #I2 `fetchAnimalById` 탐색 범위 개선 — notice 100건 제한으로 상세 페이지 "찾을 수 없음" 발생
 - [x] #I3 `claudeApi.ts` → `geminiApi.ts` 리네임 — 파일명·타입명·import 전체 교체
 - [x] #I4 체크리스트 토글 낙관적 업데이트 + 에러 피드백 추가
-- [ ] #I5 dead code 제거 — 미사용 변수·컴포넌트·import 정리
-
-### DONE
-
+- [x] #I5 dead code 제거 — 미사용 변수·컴포넌트·import 정리
 - [x] 비밀번호 찾기/재설정 기능 구현 (Resend 이메일 발송)
 - [x] Vercel 환경변수 `RESEND_API_KEY`, `APP_URL` 추가
 - [x] 신규이슈: `/forgot-password` 404 — 이미 구현 완료 (머지 전 리포트)
