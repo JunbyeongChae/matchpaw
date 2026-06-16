@@ -13,10 +13,12 @@ export async function GET(req: NextRequest) {
 
   const payload = verifyToken(token);
   if (!payload) {
-    return NextResponse.json(
+    const res = NextResponse.json(
       { success: false, error: { code: 'INVALID_TOKEN', message: '유효하지 않은 토큰입니다.' } },
       { status: 401 }
     );
+    res.cookies.set('token', '', { maxAge: 0, path: '/' });
+    return res;
   }
 
   const user = await prisma.user.findUnique({
