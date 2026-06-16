@@ -9,6 +9,18 @@
 
 ---
 
+## 5차 이슈 수정
+
+### TODO
+
+- [x] #M1 `animals/page.tsx` — 매직 넘버 `'417000'`, `'422400'` → `DOG_UP_KIND_CD`, `CAT_UP_KIND_CD` 상수 적용 (`lib/constants.ts`에 `CAT_UP_KIND_CD` 추가 포함)
+- [ ] #M2 `types/survey.ts` — 사용되지 않는 제네릭 타입 `SurveyQuestion<T>`, `SurveyOption<T>` 제거
+- [ ] #M3 `types/api.ts` — dead type 파일 삭제 (`ApiResponse`, `ApiError`, `ApiSuccess`, `PaginatedData` 전부 미사용)
+- [ ] #M4 `checklist/page.tsx` — `staleTime: 0` 제거
+- [ ] #M5 `api/checklist/route.ts` — `geminiResponse` 암묵적 any → `Awaited<ReturnType<typeof generateChecklist>>` 명시적 타입 추가
+
+---
+
 ## 4차 이슈 수정
 
 ### DONE
@@ -18,7 +30,6 @@
 - [x] #L3 `favorites/page.tsx` — `id → animalId → id` 순환 제거, `useFavorites`에 `removeById` 추가
 - [x] #L4 `api/auth/me` — 만료 토큰 401 응답 시 쿠키 삭제 추가
 - [x] #L5 `lib/email.ts` — 버튼 미작동 시 URL 직접 복사 안내 문구 추가
-
 
 ---
 

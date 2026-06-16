@@ -5,11 +5,12 @@ import { useAnimals } from '@/hooks/useAnimals';
 import AnimalCard from '@/components/features/animals/AnimalCard';
 import { AnimalCardSkeleton } from '@/components/common/Skeleton';
 import { useFavorites } from '@/hooks/useFavorites';
+import { DOG_UP_KIND_CD, CAT_UP_KIND_CD } from '@/lib/constants';
 
 const FILTERS = [
   { label: '전체', value: '' },
-  { label: '강아지', value: '417000' },
-  { label: '고양이', value: '422400' },
+  { label: '강아지', value: DOG_UP_KIND_CD },
+  { label: '고양이', value: CAT_UP_KIND_CD },
 ];
 
 export default function AnimalsPage() {
