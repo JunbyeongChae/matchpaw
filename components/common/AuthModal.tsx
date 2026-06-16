@@ -18,7 +18,7 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
-  const [error, setError] = useState('');
+  const [feedback, setFeedback] = useState<{ message: string; type: 'error' | 'success' } | null>(null);
   const [loading, setLoading] = useState(false);
 
   const setUser = useAuthStore((s) => s.setUser);
@@ -27,7 +27,7 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
     setEmail('');
     setPassword('');
     setNickname('');
-    setError('');
+    setFeedback(null);
   }
 
   function switchMode(next: Mode) {
@@ -37,21 +37,21 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
+    setFeedback(null);
     setLoading(true);
 
     try {
       if (mode === 'register') {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          setError('올바른 이메일 형식이 아닙니다.');
+          setFeedback({ message: '올바른 이메일 형식이 아닙니다.', type: 'error' });
           return;
         }
         if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) {
-          setError('비밀번호는 영문 대/소문자, 숫자를 포함해 8자 이상이어야 합니다.');
+          setFeedback({ message: '비밀번호는 영문 대/소문자, 숫자를 포함해 8자 이상이어야 합니다.', type: 'error' });
           return;
         }
         if (nickname.length < 2 || nickname.length > 20) {
-          setError('닉네임은 2자 이상 20자 이하여야 합니다.');
+          setFeedback({ message: '닉네임은 2자 이상 20자 이하여야 합니다.', type: 'error' });
           return;
         }
 
@@ -61,9 +61,9 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           body: JSON.stringify({ email, password, nickname }),
         });
         const data = await res.json();
-        if (!data.success) { setError(data.error.message); return; }
+        if (!data.success) { setFeedback({ message: data.error.message, type: 'error' }); return; }
         switchMode('login');
-        setError('가입 완료! 로그인해주세요.');
+        setFeedback({ message: '가입 완료! 로그인해주세요.', type: 'success' });
         return;
       }
 
@@ -73,13 +73,13 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (!data.success) { setError(data.error.message); return; }
+      if (!data.success) { setFeedback({ message: data.error.message, type: 'error' }); return; }
 
       setUser(data.data.user);
       onClose();
       reset();
     } catch {
-      setError('네트워크 오류가 발생했습니다.');
+      setFeedback({ message: '네트워크 오류가 발생했습니다.', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -155,9 +155,9 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
           />
         </div>
 
-        {error && (
-          <p className={`text-sm font-mono ${error.includes('완료') ? 'text-teal' : 'text-error'}`}>
-            {error}
+        {feedback && (
+          <p className={`text-sm font-mono ${feedback.type === 'success' ? 'text-teal' : 'text-error'}`}>
+            {feedback.message}
           </p>
         )}
 
