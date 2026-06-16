@@ -9,15 +9,15 @@
 
 ---
 
-## 현재 단계: 
-
-### TODO
-
-_(없음)_
+## 4차 이슈 수정
 
 ### DONE
 
-_(없음)_
+- [x] #L1 `authStore` — `isLoading` / `setLoading` dead state 제거
+- [x] #L2 `useAnimals` — 로컬 재정의 타입 제거, `AnimalListParams` import로 통일
+- [x] #L3 `favorites/page.tsx` — `id → animalId → id` 순환 제거, `useFavorites`에 `removeById` 추가
+- [x] #L4 `api/auth/me` — 만료 토큰 401 응답 시 쿠키 삭제 추가
+- [x] #L5 `lib/email.ts` — 버튼 미작동 시 URL 직접 복사 안내 문구 추가
 
 
 ---

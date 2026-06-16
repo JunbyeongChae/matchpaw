@@ -7,7 +7,7 @@ import { useAuthStore } from '@/store/authStore';
 import AuthModal from './AuthModal';
 
 export default function Header() {
-  const { user, setUser, setLoading } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const [authOpen, setAuthOpen] = useState(false);
 
   useEffect(() => {
@@ -16,9 +16,8 @@ export default function Header() {
       .then((data) => {
         if (data.success) setUser(data.data.user);
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [setUser, setLoading]);
+      .catch(() => {});
+  }, [setUser]);
 
   return (
     <>

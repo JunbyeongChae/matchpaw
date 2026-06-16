@@ -24,8 +24,11 @@ export async function sendPasswordResetEmail(email: string, token: string): Prom
           비밀번호 재설정하기
         </a>
         <p style="color: #999; font-size: 12px;">
-          본인이 요청하지 않았다면 이 메일을 무시하세요.<br/>
-          링크: ${resetUrl}
+          버튼이 작동하지 않는 경우 아래 주소를 브라우저에 직접 붙여넣으세요.<br/>
+          <a href="${resetUrl}" style="color: #e07b54; word-break: break-all;">${resetUrl}</a>
+        </p>
+        <p style="color: #bbb; font-size: 11px; margin-top: 16px;">
+          본인이 요청하지 않았다면 이 메일을 무시하세요.
         </p>
       </div>
     `,
