@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@/components/common/Button';
+import { PASSWORD_REGEX } from '@/lib/validation';
 
 function ResetPasswordForm() {
   const searchParams = useSearchParams();
@@ -30,7 +31,7 @@ function ResetPasswordForm() {
     e.preventDefault();
     setErrorMessage('');
 
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)) {
+    if (!PASSWORD_REGEX.test(password)) {
       setErrorMessage('비밀번호는 영문 대/소문자, 숫자를 포함해 8자 이상이어야 합니다.');
       return;
     }
