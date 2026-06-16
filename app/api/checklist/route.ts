@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
-import { generateChecklist } from '@/lib/claudeApi';
+import { generateChecklist } from '@/lib/geminiApi';
 import type { CreateChecklistBody } from '@/types/checklist';
 
 export async function POST(req: NextRequest) {

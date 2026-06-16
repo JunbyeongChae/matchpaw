@@ -15,14 +15,14 @@ export interface Checklist {
   items: ChecklistItem[];
 }
 
-export interface ClaudeChecklistRequest {
+export interface GeminiChecklistRequest {
   animalId: string;
   animalKind: string;
   animalAge: string;
   animalSpecialMark: string;
 }
 
-export interface ClaudeChecklistResponse {
+export interface GeminiChecklistResponse {
   title: string;
   items: {
     content: string;

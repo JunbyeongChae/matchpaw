@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { fetchAnimalList } from '@/lib/animalApi';
-import { analyzeMatch } from '@/lib/claudeApi';
+import { analyzeMatch } from '@/lib/geminiApi';
 import type { SurveyAnswers } from '@/types/survey';
 
 const DAILY_LIMIT = 2;

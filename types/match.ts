@@ -14,12 +14,12 @@ export interface MatchResult {
   generatedAt: string;    // ISO 날짜 문자열
 }
 
-export interface ClaudeMatchRequest {
+export interface GeminiMatchRequest {
   surveyAnswers: SurveyAnswers;
   animals: AbandonedAnimalItem[];
 }
 
-export interface ClaudeMatchResponse {
+export interface GeminiMatchResponse {
   matches: {
     desertionNo: string;
     score: number;
