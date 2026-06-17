@@ -80,4 +80,4 @@ GEMINI_API_KEY=      # Google AI Studio API 키 (aistudio.google.com)
 
 ## 개발 기간
 
-2026-06-11 ~ 2026-06-15 (5일, 개인 포트폴리오)
+2026-06-11 ~ 2026-06-18 (8일, 개인 포트폴리오)
