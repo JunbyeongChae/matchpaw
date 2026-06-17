@@ -5,6 +5,8 @@ import { useAnimals } from '@/hooks/useAnimals';
 import AnimalCard from '@/components/features/animals/AnimalCard';
 import { AnimalCardSkeleton } from '@/components/common/Skeleton';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useAuthStore } from '@/store/authStore';
+import AuthModal from '@/components/common/AuthModal';
 import { DOG_UP_KIND_CD, CAT_UP_KIND_CD } from '@/lib/constants';
 
 const FILTERS = [
@@ -17,8 +19,15 @@ export default function AnimalsPage() {
   const [upkind, setUpkind] = useState('');
   const [page, setPage] = useState(1);
 
+  const [authOpen, setAuthOpen] = useState(false);
   const { data, isLoading, isError } = useAnimals({ upkind, pageNo: page, numOfRows: 18, state: 'notice' });
   const { favoriteIds, toggle } = useFavorites();
+  const user = useAuthStore((s) => s.user);
+
+  function handleToggle(animalId: string, imageUrl?: string, kindNm?: string) {
+    if (!user) { setAuthOpen(true); return; }
+    toggle(animalId, imageUrl, kindNm);
+  }
 
   return (
     <div className="max-w-[600px] mx-auto px-5 py-6 space-y-5">
@@ -55,7 +64,7 @@ export default function AnimalsPage() {
                 key={animal.desertionNo}
                 animal={animal}
                 isFavorited={favoriteIds.has(animal.desertionNo)}
-                onFavorite={toggle}
+                onFavorite={handleToggle}
                 priority={i === 0}
               />
             ))}
@@ -82,6 +91,8 @@ export default function AnimalsPage() {
           </button>
         </div>
       )}
+
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
     </div>
   );
 }
