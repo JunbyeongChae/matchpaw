@@ -26,19 +26,33 @@ export function useFavorites() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ animalId, imageUrl, kindNm }),
       });
+      if (res.status === 401) throw new Error('UNAUTHORIZED');
       if (!res.ok) throw new Error('찜 추가 실패');
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
-    onError: () => alert('찜 추가에 실패했습니다. 다시 시도해주세요.'),
+    onError: (err) => {
+      if (err instanceof Error && err.message === 'UNAUTHORIZED') {
+        alert('로그인이 필요합니다.');
+      } else {
+        alert('찜 추가에 실패했습니다. 다시 시도해주세요.');
+      }
+    },
   });
 
   const removeMutation = useMutation({
     mutationFn: async (favoriteId: number) => {
       const res = await fetch(`/api/favorites/${favoriteId}`, { method: 'DELETE' });
+      if (res.status === 401) throw new Error('UNAUTHORIZED');
       if (!res.ok) throw new Error('찜 삭제 실패');
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['favorites'] }),
-    onError: () => alert('찜 삭제에 실패했습니다. 다시 시도해주세요.'),
+    onError: (err) => {
+      if (err instanceof Error && err.message === 'UNAUTHORIZED') {
+        alert('로그인이 필요합니다.');
+      } else {
+        alert('찜 삭제에 실패했습니다. 다시 시도해주세요.');
+      }
+    },
   });
 
   function toggle(animalId: string, imageUrl?: string, kindNm?: string) {

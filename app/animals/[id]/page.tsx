@@ -88,7 +88,10 @@ export default function AnimalDetailPage({ params }: { params: Promise<{ id: str
           </div>
         )}
         <button
-          onClick={() => toggle(animal.desertionNo, animal.popfile1, animal.kindNm)}
+          onClick={() => {
+            if (!user) { setAuthOpen(true); return; }
+            toggle(animal.desertionNo, animal.popfile1, animal.kindNm);
+          }}
           className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-xl"
           style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}
         >
