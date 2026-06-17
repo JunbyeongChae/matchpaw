@@ -14,7 +14,7 @@
 ### TODO
 
 - [x] #O1 `hooks/useFavorites.ts` — addMutation/removeMutation 401 응답 구분: "다시 시도" → "로그인이 필요합니다" 메시지로 분기
-- [ ] #O2 `app/animals/[id]/page.tsx` — 찜 버튼 onClick에 비회원 체크 추가 (AuthModal 오픈)
+- [x] #O2 `app/animals/[id]/page.tsx` — 찜 버튼 onClick에 비회원 체크 추가 (AuthModal 오픈)
 - [ ] #O3 `app/animals/page.tsx` — user 체크 래퍼 함수 + AuthModal 추가
 
 ---
